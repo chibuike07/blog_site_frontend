@@ -1,0 +1,207 @@
+.container {
+  width: 100%;
+  max-height: 50em;
+}
+
+.wrapper {
+  width: 100%;
+  height: 150%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #000;
+}
+
+.contentWrapper {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.logo {
+  flex-basis: 12em;
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.logo img {
+  height: 18em;
+  transform: translateY(3em);
+}
+
+.shortLinksWrapper {
+  display: flex;
+  flex-basis: 70%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.quickLinks {
+  font-size: 12px;
+  flex-basis: 15em;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+  height: 25em;
+  transform: translateY(3em);
+}
+
+.quickLinks h3 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.listWrapper {
+  transform: translateY(20%);
+}
+
+.list {
+  list-style: none;
+}
+
+.listElements {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.openingHours {
+  text-transform: capitalize;
+  font-size: 12px;
+  flex-basis: 15em;
+  margin-bottom: 15px;
+  height: 25em;
+  transform: translateY(3em);
+}
+
+.openingHours h3 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.openingHourDetail {
+  transform: translateY(38%);
+  color: #fff;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.openingHourDetail span {
+  font-weight: bold;
+}
+
+.openingHourDetail p {
+  font-weight: lighter;
+}
+
+.contactInfo {
+  flex-basis: 15em;
+  text-transform: capitalize;
+  font-size: 12px;
+  margin-bottom: 15px;
+  height: 25em;
+  transform: translateY(3em);
+}
+
+.contactInfo h3 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.contactInfoDetail {
+  transform: translateY(17%);
+  color: #fff;
+  font-size: 1rem;
+}
+
+.contactInfoDetail address,
+p {
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.subscribe {
+  display: flex;
+  flex-direction: column;
+  text-transform: capitalize;
+  flex-basis: 15em;
+  font-size: 12px;
+  margin-bottom: 4em;
+  transform: translateY(3em);
+  height: 25em;
+}
+
+.subscribe h3 {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.subscribeEvents {
+  display: flex;
+  flex-direction: column;
+  height: 16.6em;
+  transform: translateY(15%);
+}
+
+.form {
+  display: flex;
+}
+
+.input {
+  width: 12em;
+  height: 3.5em;
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.button {
+  height: 3.2em;
+  width: 5em;
+  border-color: #ff0000;
+  font-size: 13px;
+}
+
+.text {
+  color: #fff;
+  font-weight: lighter;
+  transform: translateY(25%);
+  font-size: 0.9rem;
+}
+
+.bottomSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 8em;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.copyright span {
+  font-weight: lighter;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.brandslogos {
+  display: flex;
+  justify-content: space-evenly;
+  flex-basis: 15em;
+}
+
+.hints {
+  flex-basis: 20em;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.hints span {
+  font-weight: lighter;
+  color: #fff;
+  text-transform: capitalize;
+}

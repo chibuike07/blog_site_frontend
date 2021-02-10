@@ -1,0 +1,14 @@
+.img {
+  border-radius: none;
+}
+
+.paddingVertical {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.toggleOnHover:hover ul {
+  display: block;
+  top: 39px;
+  z-index: 100;
+}
