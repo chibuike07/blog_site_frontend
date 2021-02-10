@@ -2,10 +2,8 @@ import React, { useState } from "react";
 
 const UserContext = React.createContext([{}, () => {}]);
 
-const CrispUserContextProvider = (props) => {
-  const [UsersData, setUserData] = useState({
-  
-  });
+const UserContextProvider = (props) => {
+  const [UsersData, setUserData] = useState({});
 
   return (
     <UserContext.Provider
@@ -17,4 +15,4 @@ const CrispUserContextProvider = (props) => {
   );
 };
 
-export {UserContext, UserContextProvider };
+export { UserContext, UserContextProvider };
