@@ -13,7 +13,7 @@ import {
 } from "../../../Common/react_toastify/toastify";
 import CustomLink from "../../../Common/Link.component/Link";
 
-const Form = ({ url, history }) => {
+const Form = ({ history, url }) => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState("");
