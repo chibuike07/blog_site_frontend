@@ -4,12 +4,12 @@ import { UserContextProvider } from "../Context_files/UserContext";
 
 const UsersRoutes = (props) => {
   //checking for using token is session storage
-  const isAuth = !sessionStorage.getItem("token") ? (
+  const isAuth = !!sessionStorage.getItem("client") ? (
     <UserContextProvider>
       <Route {...props} />
     </UserContextProvider>
   ) : (
-    <Redirect to="/signin" />
+    <Redirect to="/login" />
   );
 
   return <div>{isAuth}</div>;

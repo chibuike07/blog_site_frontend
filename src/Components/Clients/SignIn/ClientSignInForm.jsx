@@ -33,10 +33,10 @@ const Form = ({ url, history }) => {
 
         document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
 
-        //navigating to the dashboard
-        // return history.push({
-        //   pathname: "/dashboard",
-        // });
+        // navigating to the dashboard
+        return history.push({
+          pathname: "/dashboard",
+        });
       })
       .catch((err) =>
         err.respomse === undefined

@@ -5,7 +5,7 @@ import { AdminContextProvider } from "../Context_files/AdminContext";
 const AdminRoutes = (props) => {
   //checking for using token is session storage
   const isAuth =
-    sessionStorage.getItem("admin") === null ? (
+    sessionStorage.getItem("admin") !== null ? (
       <AdminContextProvider>
         <Route {...props} />
       </AdminContextProvider>

@@ -29,7 +29,7 @@ const AdminSignInForm = ({ url, history }) => {
       })
       .then((res) => {
         successToastify(res.data.message);
-        sessionStorage.setItem("client", "client");
+        sessionStorage.setItem("admin", "admin");
 
         document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
 

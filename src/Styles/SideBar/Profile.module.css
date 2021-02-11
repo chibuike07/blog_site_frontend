@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  line-height: 2;
+  margin-bottom: 1em;
+}
+
+.username {
+  text-transform: uppercase;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #fff;
+}
+
+.updateProfile {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+}
+
+.updateProfile:hover {
+  background-color: #dc2121;
+}
+
+.updateProfile p {
+  text-transform: uppercase;
+}
