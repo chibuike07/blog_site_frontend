@@ -8,6 +8,7 @@ const UserContextProvider = (props) => {
     posts: [],
     myPosts: [],
     personalData: [],
+    commentMutationLists: ["comments"],
   });
 
   return (

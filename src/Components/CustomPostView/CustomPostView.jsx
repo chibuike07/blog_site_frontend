@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { BounceLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +10,8 @@ import {
   successToastify,
   errorToastify,
 } from "../../Common/react_toastify/toastify";
+import { UserContext } from "../../Context_files/UserContext";
+import PostText from "../UserMutations/PostText";
 
 const PostViews = ({ title, body, id }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -18,14 +20,59 @@ const PostViews = ({ title, body, id }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [message, setHandlePostComment] = useState("");
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [{ myPosts, posts, commentMutationLists }, setState] = useContext(
+    UserContext
+  );
 
   const handleComment = () => {
     setShowDropDown((currentVal) => !currentVal);
     setShowCommentBox(false);
+
+    if (posts.length) {
+      setState((data) => ({
+        ...data,
+        commentMutationLists: ["comment"],
+      }));
+    } else if (myPosts.length) {
+      setState((data) => ({
+        ...data,
+        commentMutationLists: ["comment", "edit", "delete"],
+      }));
+    }
   };
 
-  const handleDropDownClick = () => {
-    setShowCommentBox(true);
+  const handleDeletePostByUser = async () => {
+    await axios
+      .delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      })
+      .then((res) => successToastify(res.data.message))
+      .catch((err) =>
+        err.response === undefined
+          ? false
+          : errorToastify(err.response.data.message)
+      );
+  };
+
+  const handleDropDownClick = async (value) => {
+    switch (value.toLowerCase()) {
+      case "comment":
+        setShowCommentBox(true);
+        setShowForm(false);
+        break;
+      case "edit":
+        setShowCommentBox(false);
+        setShowForm(true);
+        break;
+
+      case "delete":
+        handleDeletePostByUser();
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmitComment = async (postId) => {
@@ -41,7 +88,6 @@ const PostViews = ({ title, body, id }) => {
       )
       .then((res) => {
         successToastify(res.data.message);
-        console.log("object", res.data);
       })
       .catch((err) =>
         err.response === undefined
@@ -84,18 +130,19 @@ const PostViews = ({ title, body, id }) => {
             <div className={"container"}>
               {showDropDown && (
                 <nav className="card">
-                  {["comment"].map((value, i) => (
-                    <List
-                      text={value}
-                      key={i}
-                      textTransform="capitalize"
-                      listStyle="none"
-                      className="container-fluid"
-                      cursor="pointer"
-                      click={() => handleDropDownClick(value)}
-                      color="gray"
-                    />
-                  ))}
+                  {commentMutationLists &&
+                    commentMutationLists.map((value, i) => (
+                      <List
+                        text={value}
+                        key={i}
+                        textTransform="capitalize"
+                        listStyle="none"
+                        className="container-fluid"
+                        cursor="pointer"
+                        click={() => handleDropDownClick(value)}
+                        color="gray"
+                      />
+                    ))}
                 </nav>
               )}
             </div>
@@ -143,6 +190,7 @@ const PostViews = ({ title, body, id }) => {
           </div>
         )}
       </div>
+      {showForm && <PostText _id={id} />}
     </div>
   ) : (
     <div>{disableLoader && <BounceLoader size="1" />}</div>

@@ -24,11 +24,6 @@ const Feeds = ({ post }) => {
   ) : (
     <div>
       <BeatLoader loading={stopLoader} />
-    </div>
-  );
-  return (
-    <div>
-      {posts}
       <div
         className="container-fluid d-flex justify-content-center align-items-center"
         style={{ width: "100%", height: "100vh" }}
@@ -47,6 +42,7 @@ const Feeds = ({ post }) => {
       </div>
     </div>
   );
+  return <div>{posts}</div>;
 };
 
 export default Feeds;

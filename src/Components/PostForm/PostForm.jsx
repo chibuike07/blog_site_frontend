@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../Common/Input.component/Input";
 import axios from "axios";
 import {
@@ -8,9 +8,33 @@ import {
 import Button from "../../Common/Button.component/Button";
 import TextArea from "../../Common/Textarea/TextArea";
 
-const PostForm = ({ url }) => {
+const PostForm = ({ url, updateUrl, post }) => {
   const [title, setTitle] = useState("");
   const [body, setPost] = useState("");
+
+  const handleEditForm = async () => {
+    post &&
+      post.map(async (value) => {
+        value.title = title ? title : value.title;
+        value.body = body ? body : value.body;
+
+        await axios
+          .put(`${updateUrl}`, value, {
+            "Content-Type": "application/json",
+            withCredentials: true,
+          })
+          .then((res) => {
+            successToastify(res.data.message);
+            setTitle("");
+            setPost("");
+          })
+          .catch((err) =>
+            err.response === undefined
+              ? false
+              : errorToastify(err.response.data.message)
+          );
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,6 +57,17 @@ const PostForm = ({ url }) => {
       );
   };
 
+  useEffect(() => {
+    const addtoState = () => {
+      if (post.length) {
+        setPost(post[0].body);
+        setTitle(post[0].title);
+      }
+    };
+    addtoState();
+
+    return [addtoState];
+  }, [post]);
   return (
     <div
       className="container-fluid"
@@ -69,10 +104,27 @@ const PostForm = ({ url }) => {
             />
             <br />
 
-            <div className="button-group">
-              <Button text="Add Post" backgroundColor={"blue"} width="100px" />
+            <div
+              className="button-group d-flex  align-items-center"
+              style={{ width: "70%", marginRight: "1%" }}
+            >
+              <Button
+                text="Add Post"
+                backgroundColor={"blue"}
+                width="100px"
+                marginRight="1rem"
+              />{" "}
             </div>
           </form>
+          <div className="button-group">
+            <Button
+              text="update post"
+              backgroundColor={"blue"}
+              width="100px"
+              marginRight="1rem"
+              click={() => handleEditForm()}
+            />
+          </div>
         </div>
       </div>
     </div>
