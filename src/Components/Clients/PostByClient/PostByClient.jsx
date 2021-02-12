@@ -15,7 +15,7 @@ const PostByUser = ({ post }) => {
     return () => {
       clearTimeout(setTimeOutOnLoader);
     };
-  }, []);
+  }, [stopLoader]);
 
   const posts = post ? (
     post.map(({ title, body, _id }) => (
@@ -24,11 +24,6 @@ const PostByUser = ({ post }) => {
   ) : (
     <div>
       <BounceLoader loading={stopLoader} />
-    </div>
-  );
-  return (
-    <div>
-      {posts}
       <div
         className="container-fluid d-flex justify-content-center align-items-center"
         style={{ width: "100%", height: "100vh" }}
@@ -47,6 +42,7 @@ const PostByUser = ({ post }) => {
       </div>
     </div>
   );
+  return <div>{posts}</div>;
 };
 
 export default PostByUser;

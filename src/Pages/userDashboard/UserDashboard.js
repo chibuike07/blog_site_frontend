@@ -32,7 +32,7 @@ const UserDashboard = () => {
         if (res.status === 204) {
           infoToastify(res.data.message);
         }
-        console.log("res.data", res.data);
+
         setState((data) => ({
           ...data,
           posts: res.data.data,
@@ -57,8 +57,6 @@ const UserDashboard = () => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("res.data", res.data);
-
         setState((data) => ({
           ...data,
           myPosts: res.data.data,
@@ -107,7 +105,6 @@ const UserDashboard = () => {
     switch (innerText.toLowerCase()) {
       case "feeds":
         fetchPost();
-
         break;
       case "my post":
         fetchMyPosts();
@@ -139,7 +136,7 @@ const UserDashboard = () => {
           if (res.status === 204) {
             infoToastify(res.data.message);
           }
-          console.log("res.data", res.data);
+
           setState((data) => ({
             ...data,
             posts: res.data.data,
@@ -148,6 +145,7 @@ const UserDashboard = () => {
           setDisplayFeed(true);
           setDisplayMyPost(false);
           setdisplayPostForm(false);
+          setDisplayProfile(false);
         })
         .catch((err) =>
           err.response === undefined

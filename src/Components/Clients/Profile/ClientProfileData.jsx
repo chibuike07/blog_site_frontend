@@ -76,9 +76,9 @@ const ProfilePersonalData = () => {
       withCredentials: true,
     })
       .then((res) => {
-        console.log("res.data", res.data);
         //alert the user of the success updating of the data
         successToastify(res.data.message);
+
         //set fields to read only
         sethandleDisplay(true);
       })
