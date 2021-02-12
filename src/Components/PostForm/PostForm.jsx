@@ -23,6 +23,8 @@ const PostForm = ({ url }) => {
       })
       .then((res) => {
         successToastify(res.data.message);
+        setTitle("");
+        setPost("");
       })
       .catch((err) =>
         err.response === undefined
@@ -32,28 +34,43 @@ const PostForm = ({ url }) => {
   };
 
   return (
-    <div className="container">
+    <div
+      className="container-fluid"
+      style={{
+        marginTop: "1rem",
+      }}
+    >
       <div className="card">
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
+          <h2>Post Blog</h2>
+        </div>
+        <div className="card-body">
+          <form onSubmit={handleSubmit} className="form-group">
             <Input
               type="text"
-              placeholder="add title"
+              placeholder="Add Title"
               name="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              className="form-control"
+              width="50%"
             />
+            <br />
             <TextArea
               cols={30}
               rows={5}
-              placeholder="add post"
+              placeholder="Add Post"
               name="post"
               value={body}
               onChange={(e) => setPost(e.target.value)}
+              paddingLeft="1%"
+              border="2px solid #ccc"
+              width="80%"
             />
+            <br />
 
-            <div className="card-btn">
-              <Button text="add post" backgroundColor={"blue"} />
+            <div className="button-group">
+              <Button text="Add Post" backgroundColor={"blue"} width="100px" />
             </div>
           </form>
         </div>

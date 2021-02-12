@@ -46,6 +46,7 @@ const SidebBar = ({
       }
     };
     showMenuBarItemOnLargerScreens();
+
     return [removeAvatarLines, showMenuBarItemOnLargerScreens];
   }, [setState]);
 

@@ -7,6 +7,7 @@ const UserContextProvider = (props) => {
     sideBarActivities: ["feeds", "my post", "add post", "profile"],
     posts: [],
     myPosts: [],
+    personalData: [],
   });
 
   return (
