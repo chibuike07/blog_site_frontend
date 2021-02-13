@@ -1,19 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import SidebBar from "../../Components/SideBar/SidebBar";
 import { UserContext } from "../../Context_files/UserContext";
-import CustomPostView from "../../Components/CustomPostView/CustomPostView";
 import PostText from "../../Components/UserMutations/PostText";
 import axios from "axios";
 import {
   errorToastify,
   infoToastify,
+  successToastify,
 } from "../../Common/react_toastify/toastify";
 import Feeds from "../../Components/Clients/Feed/Feeds";
 import PostByUser from "../../Components/Clients/PostByClient/PostByClient";
 import ProfilePersonalData from "../../Components/Clients/Profile/ClientProfileData";
 import Scrollbar from "react-scrollbars-custom";
 
-const UserDashboard = () => {
+const UserDashboard = ({ history }) => {
   const [displayFeed, setDisplayFeed] = useState(true);
   const [displayPostForm, setdisplayPostForm] = useState(false);
   const [displayMyPost, setDisplayMyPost] = useState(false);
@@ -97,6 +97,51 @@ const UserDashboard = () => {
       );
   };
 
+  const handleClientSignOut = async () => {
+    await axios
+      .put(
+        `${REACT_APP_ENDPOINT}/logger_status`,
+        { loggedIn: false },
+        {
+          "Content-Type": "application/json",
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        successToastify(res.data.message);
+        sessionStorage.removeItem("client");
+        removeClientCookie();
+        history.push("/login");
+      })
+      .catch((err) =>
+        err.response === undefined
+          ? false
+          : errorToastify(err.response.data.message)
+      );
+  };
+
+  const removeClientCookie = () => {
+    const sessionStorage = document.cookie
+      .split(" ")
+      .filter(
+        (v) =>
+          v.includes(`${process.env.REACT_APP_COOKIE_NAME}`) ||
+          v.includes(`${process.env.REACT_APP_COOKIE_NAME_USER}`)
+      );
+
+    //extract the key from the the cookie
+    let tokenKey = sessionStorage.toString().split("=");
+
+    //confirm signing out
+    const confirmExit = window.confirm("Are you sure you want to signout");
+
+    //replace the cookie with an empty string
+    let replacedCookie = (document.cookie = `${tokenKey[0]}="";`);
+    window.sessionStorage.removeItem("token");
+
+    return confirmExit === true ? replacedCookie : false;
+  };
+
   const handleClickSideBarActivities = (innerText, hideSideBar) => {
     // window.innerWidth <= 900
     //   ? hideSideBarAndSetDisplayToNone(hideSideBar)
@@ -119,6 +164,10 @@ const UserDashboard = () => {
         setDisplayFeed(false);
         setDisplayMyPost(false);
         setDisplayProfile(false);
+        break;
+
+      case "sign out":
+        handleClientSignOut();
         break;
       default:
         setDisplayFeed(true);

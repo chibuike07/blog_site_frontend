@@ -28,20 +28,21 @@ const AdminSignInForm = ({ url, history }) => {
         "Content-Type": "application/json",
       })
       .then((res) => {
+        console.log("res.data", res.data);
         successToastify(res.data.message);
         sessionStorage.setItem("admin", "admin");
 
-        document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
+        document.cookie = `${process.env.REACT_APP_COOKIE_NAME_ADMIN}=${res.data.token}`;
 
-        //navigating to the dashboard
-        // return history.push({
-        //   pathname: "/dashboard",
-        // });
+        // navigating to the dashboard
+        return history.push({
+          pathname: "/admin/dashboard",
+        });
       })
       .catch((err) =>
-        err.respomse === undefined
+        err.response === undefined
           ? false
-          : errorToastify(err.respomse.data.message)
+          : errorToastify(err.response.data.message)
       );
   };
 
