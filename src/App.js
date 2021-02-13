@@ -7,6 +7,7 @@ import SignInForm from "./Pages/ClientRegistration/SignIn";
 import AdminRegistration from "./Pages/AdminRegistration/SignUp";
 import AdminSignIn from "./Pages/AdminRegistration/SignIn";
 import UserDashboard from "./Pages/userDashboard/UserDashboard";
+import AdminDashboardRoutes from "./Routes/AdminDashboardRoutes";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/admin/signup" component={AdminRegistration} exact />
           <Route path="/admin/login" component={AdminSignIn} exact />
           <UsersRoutes path="/dashboard" component={UserDashboard} exact />
+          <AdminDashboardRoutes />
         </Switch>
       </Router>
     </div>

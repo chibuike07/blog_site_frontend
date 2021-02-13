@@ -3,7 +3,14 @@ import React, { useState } from "react";
 const AdminContext = React.createContext([{}, () => {}]);
 
 const AdminContextProvider = (props) => {
-  const [Admin, setCrisptvAdmin] = useState({});
+  const [Admin, setCrisptvAdmin] = useState({
+    usersList: [],
+    sideBarActivities: ["dashboard", "users", "posts", "registered ip"],
+    clientPosts: [],
+    AdminCommentMutation: [],
+    registeredIp: [],
+    dashBoardStaticData: [],
+  });
 
   return (
     <AdminContext.Provider
