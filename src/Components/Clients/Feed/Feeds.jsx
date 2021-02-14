@@ -18,8 +18,16 @@ const Feeds = ({ post }) => {
   }, []);
 
   const posts = post ? (
-    post.map(({ title, body, _id }) => (
-      <CustomPostView title={title} body={body} id={_id} key={_id} />
+    post.map(({ title, body, _id, createdAt, updatedAt, status }) => (
+      <CustomPostView
+        title={title}
+        body={body}
+        id={_id}
+        key={_id}
+        createdAt={createdAt}
+        updatedAt={updatedAt}
+        status={status}
+      />
     ))
   ) : (
     <div>

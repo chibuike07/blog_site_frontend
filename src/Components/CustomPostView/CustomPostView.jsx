@@ -13,7 +13,7 @@ import {
 import { UserContext } from "../../Context_files/UserContext";
 import PostText from "../UserMutations/PostText";
 
-const PostViews = ({ title, body, id }) => {
+const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
   const { REACT_APP_ENDPOINT } = process.env;
 
   const [disableLoader, setDisableLoader] = useState(true);
@@ -116,6 +116,21 @@ const PostViews = ({ title, body, id }) => {
       }}
     >
       <div className="card-body">
+        <div className="card-text">
+          {!status && (
+            <>
+              <span style={{ opacity: "0.34" }}>~ createdOn</span>{" "}
+              <span className="card-text" style={{ opacity: "0.34" }}>
+                {createdAt}
+              </span>
+            </>
+          )}
+          {status && (
+            <span className="card-text" style={{ opacity: "0.34" }}>
+              {"~ Edited"}
+            </span>
+          )}
+        </div>
         <div className="d-flex justify-content-between">
           <div className="card-title ">
             <h2 style={{ textTransform: "capitalize" }}>{title}</h2>
@@ -175,7 +190,6 @@ const PostViews = ({ title, body, id }) => {
               value={message}
               paddingLeft="1%"
             />
-
             <div className="card-btn">
               <Button
                 text="post comment"
