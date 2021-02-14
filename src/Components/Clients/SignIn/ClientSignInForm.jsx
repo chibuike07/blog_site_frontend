@@ -77,7 +77,13 @@ const Form = ({ url, history }) => {
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
-            control={<Checkbox value="allowExtraEmails" color="primary" />}
+            control={
+              <Checkbox
+                value="allowExtraEmails"
+                color="primary"
+                onChange={(e) => console.log("e.target.value", e.target.value)}
+              />
+            }
             label="Remember Me"
           />
         </Grid>

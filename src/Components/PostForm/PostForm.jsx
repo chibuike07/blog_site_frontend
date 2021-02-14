@@ -17,6 +17,7 @@ const PostForm = ({ url, updateUrl, post }) => {
       post.map(async (value) => {
         value.title = title ? title : value.title;
         value.body = body ? body : value.body;
+        value.status = true;
 
         await axios
           .put(`${updateUrl}`, value, {
