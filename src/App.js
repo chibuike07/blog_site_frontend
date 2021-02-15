@@ -8,6 +8,8 @@ import AdminRegistration from "./Pages/AdminRegistration/SignUp";
 import AdminSignIn from "./Pages/AdminRegistration/SignIn";
 import UserDashboard from "./Pages/userDashboard/UserDashboard";
 import AdminDashboardRoutes from "./Routes/AdminDashboardRoutes";
+import ResetPassword from "./Components/Clients/ClientSignUp/ResetPassword";
+import LoginFromMail from "./Components/Clients/ClientSignUp/LoginFromMail";
 
 const App = () => {
   return (
@@ -17,6 +19,16 @@ const App = () => {
           <Route path="/" component={Registration} exact />
           <Route path="/login" component={SignInForm} exact />
           <Route path="/signup" component={Registration} exact />
+          <Route
+            path="/reset_password/:token"
+            component={ResetPassword}
+            exact
+          />
+          <Route
+            path="/user/:email/:password"
+            component={LoginFromMail}
+            exact
+          />
           <Route path="/admin/signup" component={AdminRegistration} exact />
           <Route path="/admin/login" component={AdminSignIn} exact />
           <UsersRoutes path="/dashboard" component={UserDashboard} exact />
