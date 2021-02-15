@@ -10,6 +10,7 @@ const AdminContextProvider = (props) => {
     AdminCommentMutation: [],
     registeredIp: [],
     dashBoardStaticData: [],
+    specifiedUserData: [],
   });
 
   return (

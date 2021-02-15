@@ -7,22 +7,39 @@ import {
   faPhone,
   faLongArrowAltRight,
   faEnvelopeSquare,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { AdminContext } from "../../Context_files/AdminContext";
+import axios from "axios";
+import {
+  successToastify,
+  errorToastify,
+} from "../../Common/react_toastify/toastify";
 
-const DisplayUsersCard = () => {
-  const [{ usersList }, setState] = useContext(AdminContext);
+const DisplayUsersCard = ({ history }) => {
+  const [{ usersList }] = useContext(AdminContext);
+  const { REACT_APP_ENDPOINT } = process.env;
 
-  const handlePreviewSingleUser = (specifiedUserData) => {
-    setState((data) => ({
-      ...data,
-      specifiedUserData: specifiedUserData,
-      showUsersList: false,
-      tags: "user list",
-      handleDownColor: false,
-      showPreview: true,
-      showAllList: false,
-    }));
+  const handlePreviewSingleUser = ({ _id }) => {
+    history.push(`/admin/preview_user/${_id}`);
+  };
+
+  const handleDeleteUser = async ({ _id }) => {
+    await axios
+      .delete(`${REACT_APP_ENDPOINT}/admin/delete_client/${_id}`, {
+        "Content-Type": "application/json",
+      })
+      .then((res) => {
+        console.log("res.data", res.data);
+        successToastify(res.data.data.message);
+      })
+      .catch(
+        (err) =>
+          err.response === undefined
+            ? false
+            : console.log("err.response", err.response)
+        // errorToastify(err.response.data.message)
+      );
   };
 
   const UsersListData = usersList ? (
@@ -112,22 +129,26 @@ const DisplayUsersCard = () => {
                   </div>
                 </div>
 
-                <div className="btn" style={{ backgroundColor: "blue" }}>
+                <div className="btn">
                   <Button
                     text={<FontAwesomeIcon icon={faLongArrowAltRight} />}
                     click={() =>
                       handlePreviewSingleUser({
-                        firstName,
-                        lastName,
-                        profileImage,
-                        contact,
-                        email,
-                        phone,
-
-                        ...remainingDetails,
+                        _id,
                       })
                     }
-                    className=""
+                    className="btn"
+                    backgroundColor=" rgb(48, 187, 181)"
+                  />{" "}
+                  <br />
+                  <Button
+                    text={<FontAwesomeIcon icon={faTimes} />}
+                    click={() =>
+                      handleDeleteUser({
+                        _id,
+                      })
+                    }
+                    className="btn"
                     backgroundColor=" rgb(48, 187, 181)"
                   />
                 </div>

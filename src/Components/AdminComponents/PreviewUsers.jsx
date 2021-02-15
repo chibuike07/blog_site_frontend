@@ -1,107 +1,77 @@
-import React, { useContext } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import Image from "../../Common/Image.component/Image";
-import PreviewStyles from "../../Styles/SpecifiedUser/Preview.module.css";
-import { DashBoardContext } from "../../Context_file/DashBoardContext";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
-  faMobile,
-  faArrowLeft,
   faEnvelopeSquare,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
-const PreviewUser = ({ history }) => {
-  const [{ specifiedUserData }, setState] = useContext(DashBoardContext);
-  const {
-    allCont,
-    container,
-    arrow,
-    text,
-    icons,
-    wrapper,
-    image,
-    img,
-    contentWrapper,
-    usernames,
-    userAddress,
-    userEmail,
-    regisDate,
-    cellPhone,
-    mobPhone,
-  } = PreviewStyles;
-
-  const handlePreviousPage = () => {
-    setState((data) => ({
-      ...data,
-      tags: "all users",
-      handleDownColor: true,
-      showPreview: false,
-      showAllList: true,
-    }));
-  };
-  const displayUserDetail = specifiedUserData ? (
-    [specifiedUserData].map(
+const PreviewUser = ({ userData, history }) => {
+  const displayUserDetail = userData ? (
+    userData.map(
       (
         {
-          names: { title, first, last },
-          picture: { medium },
-          dob: { age },
-          location: {
-            street: { number, name },
-            city,
-            state,
-          },
-          registered: { date },
+          firstName,
+          lastName,
+          profileImage,
+          contact,
+          contact: { address, city, state },
           email,
-          cell,
           phone,
+          _id,
+          createdAt,
           ...remainingDetails
         },
         index
       ) => {
         return (
-          <div className={wrapper} key={index}>
-            <div className={image}>
-              <Image src={medium} alt={"user image"} className={img} />
+          <div className="container-fluid" key={index}>
+            <div className="card-body">
+              <Image
+                src={profileImage}
+                alt={"user image"}
+                className={"card-img"}
+                width="40%"
+                height="50vh"
+              />
             </div>
-            <div className={contentWrapper}>
-              <div className={usernames}>
-                <h3>
+            <div>
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                onClick={() => history.goBack()}
+              />
+            </div>
+            <div className={"card-body"}>
+              <div className={"card-text"}>
+                <h3 className="card-text">
                   <span>
-                    {title} {first}
-                    {last}
+                    {firstName}
+                    {lastName}
                   </span>
                 </h3>
-                <p>
-                  <span>{age}</span>
-                </p>
               </div>
-              <div className={userAddress}>
+              <div className={"card-text"}>
                 <address>
-                  {number} {name}, {city}, {state}
+                  {address && address}, {city && city}, {state && state}
                 </address>
               </div>
 
-              <div className={userEmail}>
+              <div className={"card-text"}>
                 <span>
                   <FontAwesomeIcon icon={faEnvelopeSquare} />
                 </span>
                 <address>{email}</address>
               </div>
-              <div className={regisDate}>
-                <span>joined: {new Date(date).toLocaleDateString()}</span>
+              <div className={"card-text"}>
+                <span>joined: {new Date(createdAt).toLocaleDateString()}</span>
               </div>
 
-              <div className={cellPhone}>
+              <div className={"card-test"}>
                 <span>
                   <FontAwesomeIcon icon={faPhone} rotation={90} />
-                </span>
-                <span>{cell}</span>
-              </div>
-              <div className={mobPhone}>
-                <span>
-                  <FontAwesomeIcon icon={faMobile} />
                 </span>
                 <span>{phone}</span>
               </div>
@@ -116,21 +86,7 @@ const PreviewUser = ({ history }) => {
     </div>
   );
 
-  return (
-    <div className={allCont}>
-      <div className={arrow}>
-        <span onClickCapture={handlePreviousPage}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            className={icons}
-            color="rgb(48, 187, 181)"
-          />
-        </span>
-        <span className={text}>results</span>
-      </div>
-      <div className={container}>{displayUserDetail}</div>
-    </div>
-  );
+  return <div className={"container-fluid"}>{displayUserDetail}</div>;
 };
 
 export default withRouter(PreviewUser);
