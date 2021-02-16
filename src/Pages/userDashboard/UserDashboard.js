@@ -125,8 +125,8 @@ const UserDashboard = ({ history }) => {
       .split(" ")
       .filter(
         (v) =>
-          v.includes(`${process.env.REACT_APP_COOKIE_NAME}`) ||
-          v.includes(`${process.env.REACT_APP_COOKIE_NAME_USER}`)
+          v.includes(`${process.env.REACT_APP_COOKIE_NAME_USER}`) ||
+          v.includes(`${process.env.REACT_APP_COOKIE_NAME_ADMIN}`)
       );
 
     //extract the key from the the cookie
@@ -136,17 +136,15 @@ const UserDashboard = ({ history }) => {
     const confirmExit = window.confirm("Are you sure you want to signout");
 
     //replace the cookie with an empty string
-    let replacedCookie = (document.cookie = `${tokenKey[0]}="";`);
+    let replacedCookie = (document.cookie = `${
+      tokenKey[0]
+    }=; path=/; expires=${Date.now()}`);
     window.sessionStorage.removeItem("token");
 
     return confirmExit === true ? replacedCookie : false;
   };
 
   const handleClickSideBarActivities = (innerText, hideSideBar) => {
-    // window.innerWidth <= 900
-    //   ? hideSideBarAndSetDisplayToNone(hideSideBar)
-    //   : showSideBarAndSetWidthToHundred();
-
     switch (innerText.toLowerCase()) {
       case "feeds":
         fetchPost();

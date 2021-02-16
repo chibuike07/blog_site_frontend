@@ -1,61 +1,61 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
 import axios from "axios";
-import CustomLink from "../../../Common/Link.component/Link";
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
-import ForgotPasswordCheckout from "./ForgotPasswordCheckout";
 
-const Form = ({ url, history }) => {
+const ResetPassword = ({ match, history }) => {
   const classes = useStyles();
   const { REACT_APP_ENDPOINT } = process.env;
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [openModal, setOpenModal] = useState(false);
-  const [displayForgotPasswordForm, setDisplayForgotPasswordForm] = useState(
-    false
-  );
+  const [token, setToken] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = { email, password };
 
     await axios
-      .post(`${url}`, data, {
+      .post(`${REACT_APP_ENDPOINT}/reset_password/${token}`, data, {
         "Content-Type": "application/json",
       })
       .then((res) => {
         successToastify(res.data.message);
-        sessionStorage.setItem("client", "client");
-
-        document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
-
-        // navigating to the dashboard
         return history.push({
-          pathname: "/dashboard",
+          pathname: "/login",
+          state: { email, password },
         });
       })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
+      .catch(
+        (err) =>
+          err.response === undefined
+            ? false
+            : console.log("err.response", err.response)
+        //    errorToastify(err.response.data.message)
       );
   };
 
-  const handleDisplayForgetPasswordForm = (e) => {
-    e.preventDefault();
-    setDisplayForgotPasswordForm(true);
-    setOpenModal(true);
-  };
+  useEffect(() => {
+    const checkForToken = () => {
+      const { token } = match.params;
+      setToken(token);
+    };
+    checkForToken();
+
+    return [checkForToken];
+  }, [match]);
 
   return (
-    <>
+    <div className="container" style={{ width: "50%", marginTop: "20%" }}>
+      <div className="card-title">
+        <h4>Reset Password</h4>
+      </div>
       <form className={classes.form} noValidate onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -87,7 +87,6 @@ const Form = ({ url, history }) => {
           </Grid>
           <Grid item xs={12}></Grid>
         </Grid>
-
         <Button
           type="submit"
           fullWidth
@@ -95,35 +94,11 @@ const Form = ({ url, history }) => {
           color="primary"
           className={classes.submit}
         >
-          login
+          Reset Password
         </Button>
-        <Grid container>
-          <Grid item xs>
-            <CustomLink
-              url={""}
-              color="blue"
-              text="Forgot password?"
-              click={(e) => handleDisplayForgetPasswordForm(e)}
-            />
-          </Grid>
-          <Grid item>
-            <CustomLink
-              url="/signup"
-              text="Don't have account? Sign up"
-              color="blue"
-            />
-          </Grid>
-        </Grid>
       </form>
-      {displayForgotPasswordForm && (
-        <ForgotPasswordCheckout
-          url={`${REACT_APP_ENDPOINT}/replace_password`}
-          openModal={openModal}
-          setModal={setOpenModal}
-        />
-      )}
-    </>
+    </div>
   );
 };
 
-export default withRouter(Form);
+export default ResetPassword;

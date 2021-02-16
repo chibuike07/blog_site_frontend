@@ -13,9 +13,11 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.3",
     "bootstrap": "^4.6.0",
+    "i": "^0.3.6",
+    "npm": "^7.5.4",
     "react": "^17.0.1",
-    "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
+    "react-modal": "^3.12.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-scrollbars-custom": "^4.0.25",
@@ -24,8 +26,8 @@
     "web-vitals": "^1.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
-    "axios": ">=0.21.1"
+    "axios": ">=0.21.1",
+    "nodemon": "^2.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
