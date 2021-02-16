@@ -11,6 +11,8 @@ const AdminContextProvider = (props) => {
     registeredIp: [],
     dashBoardStaticData: [],
     specifiedUserData: [],
+    specifiedPost: [],
+    specifiedPostCommentPoster: [],
   });
 
   return (

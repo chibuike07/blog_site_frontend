@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
+import { withRouter } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +15,7 @@ import {
 import PostText from "../UserMutations/PostText";
 import { AdminContext } from "../../Context_files/AdminContext";
 
-const AdminPostCard = ({ title, body, id }) => {
+const AdminPostCard = ({ title, body, id, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const [disableLoader, setDisableLoader] = useState(true);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -83,6 +84,12 @@ const AdminPostCard = ({ title, body, id }) => {
       );
   };
 
+  const handleCommentTitleClick = ({ id }) => {
+    history.push({
+      pathname: `/admin/preview_comment/${id}`,
+    });
+  };
+
   useEffect(() => {
     const setTimeOutOnLoader = window.setTimeout(() => {
       setDisableLoader(false);
@@ -105,7 +112,16 @@ const AdminPostCard = ({ title, body, id }) => {
       <div className="card-body">
         <div className="d-flex justify-content-between">
           <div className="card-title ">
-            <h2 style={{ textTransform: "capitalize" }}>{title}</h2>
+            <h2
+              style={{
+                textTransform: "capitalize",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+              onClick={() => handleCommentTitleClick({ id })}
+            >
+              {title}
+            </h2>
           </div>
 
           <div>
@@ -192,4 +208,4 @@ const AdminPostCard = ({ title, body, id }) => {
   );
 };
 
-export default AdminPostCard;
+export default withRouter(AdminPostCard);

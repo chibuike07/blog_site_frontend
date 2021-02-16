@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
   faEnvelopeSquare,
-  faArrowLeft,
+  faArrowCircleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 const PreviewUser = ({ userData, history }) => {
@@ -29,28 +29,30 @@ const PreviewUser = ({ userData, history }) => {
       ) => {
         return (
           <div className="container-fluid" key={index}>
-            <div className="card-body">
+            <div className="card-body" style={{ height: "" }}>
               <Image
                 src={profileImage}
                 alt={"user image"}
                 className={"card-img"}
-                width="40%"
-                height="50vh"
+                width="auto"
+                height="30vh"
               />
             </div>
-            <div>
+            <div className="card-body">
               <FontAwesomeIcon
-                icon={faArrowLeft}
+                icon={faArrowCircleLeft}
+                size="2x"
                 onClick={() => history.goBack()}
               />
             </div>
             <div className={"card-body"}>
               <div className={"card-text"}>
-                <h3 className="card-text">
-                  <span>
-                    {firstName}
-                    {lastName}
-                  </span>
+                <h3
+                  className="card-text"
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {firstName} {""}
+                  {lastName}
                 </h3>
               </div>
               <div className={"card-text"}>
@@ -59,18 +61,18 @@ const PreviewUser = ({ userData, history }) => {
                 </address>
               </div>
 
-              <div className={"card-text"}>
-                <span>
+              <div className={"card-text d-flex"}>
+                <span style={{ marginRight: "1rem" }}>
                   <FontAwesomeIcon icon={faEnvelopeSquare} />
                 </span>
                 <address>{email}</address>
               </div>
-              <div className={"card-text"}>
+              <div className={"card-text"} style={{ marginBottom: "1rem" }}>
                 <span>joined: {new Date(createdAt).toLocaleDateString()}</span>
               </div>
 
-              <div className={"card-test"}>
-                <span>
+              <div className={"card-text "}>
+                <span style={{ marginRight: "1rem" }}>
                   <FontAwesomeIcon icon={faPhone} rotation={90} />
                 </span>
                 <span>{phone}</span>

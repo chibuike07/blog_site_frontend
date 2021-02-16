@@ -1,0 +1,35 @@
+.overAllWrapper {
+  width: 20%;
+  min-width: 150px;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.container {
+  width: 20%;
+  height: 20px;
+  border-radius: 20px;
+  filter: drop-shadow(-0px 2px 3px #ccc);
+  transition: background-color 1s ease-in-out;
+  background-color: rgb(226, 227, 236);
+}
+
+.wrapper {
+  background-color: #fff;
+  width: 40%;
+  height: 20px;
+  border-radius: 50%;
+  transition: transform 1s ease-in-out;
+}
+
+.text {
+  padding: 2%;
+}
+
+.text span {
+  font-weight: lighter;
+  text-transform: capitalize;
+  font-size: 12px;
+}

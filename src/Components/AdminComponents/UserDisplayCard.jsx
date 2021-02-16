@@ -15,6 +15,7 @@ import {
   successToastify,
   errorToastify,
 } from "../../Common/react_toastify/toastify";
+import ToggleButton from "../../Common/ToggleButton/ToggleButton";
 
 const DisplayUsersCard = ({ history }) => {
   const [{ usersList }] = useContext(AdminContext);
@@ -33,12 +34,10 @@ const DisplayUsersCard = ({ history }) => {
         console.log("res.data", res.data);
         successToastify(res.data.data.message);
       })
-      .catch(
-        (err) =>
-          err.response === undefined
-            ? false
-            : console.log("err.response", err.response)
-        // errorToastify(err.response.data.message)
+      .catch((err) =>
+        err.response === undefined
+          ? false
+          : errorToastify(err.response.data.message)
       );
   };
 
@@ -55,18 +54,20 @@ const DisplayUsersCard = ({ history }) => {
           phone,
           _id,
           createdAt,
+          active,
           ...remainingDetails
         },
         index
       ) => {
         return (
           <div className="card" key={index} style={{ marginBottom: "1rem" }}>
-            <div className="card">
+            <div className="card-body">
               {profileImage ? (
                 <div
                   style={{
                     width: "20%",
-                    height: "30vh",
+                    minWidth: "170px",
+                    height: "25vh",
                     margin: "1rem",
                   }}
                 >
@@ -85,13 +86,16 @@ const DisplayUsersCard = ({ history }) => {
                   style={{
                     backgroundColor: "blue",
                     width: "20%",
-                    height: "30vh",
+                    height: "25vh",
                     color: "#fff",
                     borderRadius: "50%",
                     margin: "1rem",
                   }}
                 >
-                  <span className="card-text" style={{ fontSize: "3rem" }}>
+                  <span
+                    className="card-text"
+                    style={{ fontSize: "3rem", textTransform: "capitalize" }}
+                  >
                     {firstName[0].toUpperCase()}
                     {lastName[0].toUpperCase()}
                   </span>
@@ -100,7 +104,7 @@ const DisplayUsersCard = ({ history }) => {
             </div>
             <div className="card-body">
               <div className="card-title">
-                <h3>
+                <h3 style={{ textTransform: "capitalize" }}>
                   {firstName && firstName} {lastName && lastName}
                 </h3>
               </div>
@@ -126,6 +130,9 @@ const DisplayUsersCard = ({ history }) => {
                       <FontAwesomeIcon icon={faPhone} rotation={90} />
                     </span>{" "}
                     <span className="card-text">+234{phone}</span>
+                  </div>
+                  <div>
+                    <ToggleButton status={active} id={_id} />
                   </div>
                 </div>
 
