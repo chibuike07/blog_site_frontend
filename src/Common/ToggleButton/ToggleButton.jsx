@@ -56,7 +56,12 @@ const ToggleButton = ({ status, id }) => {
         className={container}
         style={{ backgroundColor: isToggling ? "rgb(48, 187, 181)" : "#eee" }}
       >
-        <div className={wrapper} ref={toggle} onClick={handleToggeleTrue}>
+        <div
+          className={wrapper}
+          ref={toggle}
+          onClick={handleToggeleTrue}
+          title="Change client status"
+        >
           <div className={btn}></div>
         </div>
       </div>

@@ -22,6 +22,7 @@
   height: 20px;
   border-radius: 50%;
   transition: transform 1s ease-in-out;
+  cursor: pointer;
 }
 
 .text {
@@ -32,4 +33,7 @@
   font-weight: lighter;
   text-transform: capitalize;
   font-size: 12px;
+}
+
+.btn {
 }

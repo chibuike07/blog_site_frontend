@@ -25,6 +25,7 @@ const PreviewComment = ({ match, history }) => {
           "Content-Type": "application/json",
         })
         .then((res) => {
+          console.log("res", res.data.posterName);
           setState((data) => ({
             ...data,
             specifiedPost: res.data.data,
@@ -47,10 +48,11 @@ const PreviewComment = ({ match, history }) => {
   const comments =
     comment &&
     comment.map(({ message, clientId }, index) => (
-      <div className="card" style={{ marginBottom: "1rem" }}>
+      <div className="card" style={{ marginBottom: "1rem" }} key={index}>
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
+              {console.log("object", specifiedPostCommentPoster[index])}
               {specifiedPostCommentPoster[index].firstName}{" "}
               {specifiedPostCommentPoster[index].lastName}
             </span>
@@ -74,7 +76,11 @@ const PreviewComment = ({ match, history }) => {
               )}
             </div>
           </div>
-          <Lists text={message} key={clientId} listStyle="none" />
+          <Lists
+            text={`${message[0].toUpperCase()}${message.slice(1)}`}
+            key={clientId}
+            listStyle="none"
+          />
         </div>
       </div>
     ));
