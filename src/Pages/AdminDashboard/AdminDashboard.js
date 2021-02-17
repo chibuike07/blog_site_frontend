@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserDisplayCard from "../../Components/AdminComponents/UserDisplayCard";
-import axios from "axios";
+
 import { AdminContext } from "../../Context_files/AdminContext";
 import { errorToastify } from "../../Common/react_toastify/toastify";
 import SideBar from "../../Components/SideBar/SidebBar";
@@ -8,6 +8,7 @@ import PostFeeds from "../../Components/AdminComponents/PostFeeds";
 import RegisteredIpAddress from "../../Components/AdminComponents/RegisteredIpAddress";
 import AdminDashboardStaticData from "../../Components/AdminComponents/AdminDashboardStaticData";
 import ScrollBar from "react-scrollbars-custom";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const AdminDashboard = () => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -20,11 +21,13 @@ const AdminDashboard = () => {
   const [displayRegisteredIp, setdisplayRegisteredIp] = useState(false);
 
   const fetchClients = async () => {
-    await axios
-      .get(`${REACT_APP_ENDPOINT}/admin/get_client?page=${1}&limit=${10}`, {
+    await AuthAxios.get(
+      `${REACT_APP_ENDPOINT}/admin/get_client?page=${1}&limit=${10}`,
+      {
         "Content-Type": "application/json",
-        // withCredentials: true,
-      })
+        withCredentials: true,
+      }
+    )
       .then((res) => {
         setState((data) => ({
           ...data,
@@ -43,11 +46,10 @@ const AdminDashboard = () => {
   };
 
   const handleFetchPosts = async () => {
-    await axios
-      .get(`${REACT_APP_ENDPOINT}/post`, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
+    await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/getPost`, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         setState((data) => ({
           ...data,
@@ -66,11 +68,10 @@ const AdminDashboard = () => {
   };
 
   const fetchRegisteredIp = async () => {
-    await axios
-      .get(`${REACT_APP_ENDPOINT}/admin/registeredIp`, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
+    await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/registeredIp`, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         setState((data) => ({
           ...data,
@@ -117,11 +118,10 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchLatestLoginClients = async () => {
-      await axios
-        .get(`${REACT_APP_ENDPOINT}/admin/dashboard_data`, {
-          "Content-Type": "application/json",
-          // withCredentials: true,
-        })
+      await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/dashboard_data`, {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      })
         .then((res) => {
           setState((data) => ({
             ...data,

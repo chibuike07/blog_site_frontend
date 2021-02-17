@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { errorToastify } from "../../Common/react_toastify/toastify";
-import axios from "axios";
+
 import PreviewUser from "../AdminComponents/PreviewUsers";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const ClientPreviewpage = ({ match }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -11,11 +12,13 @@ const ClientPreviewpage = ({ match }) => {
 
   useEffect(() => {
     const fetchSingleUser = async () => {
-      await axios
-        .get(`${REACT_APP_ENDPOINT}/admin/get_one_client/${userId}`, {
+      await AuthAxios.get(
+        `${REACT_APP_ENDPOINT}/admin/get_one_client/${userId}`,
+        {
           "Content-Type": "application/json",
-          // withCredentials: true,
-        })
+          withCredentials: true,
+        }
+      )
         .then((res) => {
           console.log("res.data.data", res.data.data);
           setUserData(res.data.data);

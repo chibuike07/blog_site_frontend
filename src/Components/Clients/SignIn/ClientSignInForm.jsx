@@ -4,13 +4,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-import axios from "axios";
+
 import CustomLink from "../../../Common/Link.component/Link";
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
 import ForgotPasswordCheckout from "./ForgotPasswordCheckout";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const Form = ({ url, history }) => {
   const classes = useStyles();
@@ -26,15 +27,13 @@ const Form = ({ url, history }) => {
     e.preventDefault();
     let data = { email, password };
 
-    await axios
-      .post(`${url}`, data, {
-        "Content-Type": "application/json",
-      })
+    await AuthAxios.post(`${url}`, data, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         successToastify(res.data.message);
         sessionStorage.setItem("client", "client");
-
-        document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
 
         // navigating to the dashboard
         return history.push({

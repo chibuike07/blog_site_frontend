@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Styles from "./Styles.module.css";
 import Input from "../../Common/Input.component/Input";
-import Axios from "axios";
+
 import {
   errorToastify,
   successToastify,
 } from "../../Components/react_toastify/toastify";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const SubscribeForm = () => {
   const { email, form, submit } = Styles;
@@ -15,7 +16,7 @@ const SubscribeForm = () => {
   const handleNewSubscribers = async (e) => {
     e.preventDefault();
     let subscribers = emails;
-    await Axios.post(
+    await AuthAxios.post(
       `${REACT_APP_ENDPOINT}/post_subscriber`,
 
       { subscribers },

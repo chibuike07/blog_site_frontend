@@ -6,7 +6,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import List from "../../Common/List.component/List";
 import TextArea from "../../Common/Textarea/TextArea";
 import Button from "../../Common/Button.component/Button";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
@@ -14,6 +14,7 @@ import {
 
 import PostText from "../UserMutations/PostText";
 import { AdminContext } from "../../Context_files/AdminContext";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const AdminPostCard = ({ title, body, id, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -31,11 +32,10 @@ const AdminPostCard = ({ title, body, id, history }) => {
   };
 
   const handleDeletePostByUser = async () => {
-    await axios
-      .delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
+    await AuthAxios.delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => successToastify(res.data.message))
       .catch((err) =>
         err.response === undefined
@@ -65,15 +65,14 @@ const AdminPostCard = ({ title, body, id, history }) => {
 
   const handleSubmitComment = async (postId) => {
     setShowCommentBox(false);
-    await axios
-      .put(
-        `${REACT_APP_ENDPOINT}/comment/${postId}`,
-        { message },
-        {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        }
-      )
+    await AuthAxios.put(
+      `${REACT_APP_ENDPOINT}/comment/${postId}`,
+      { message },
+      {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      }
+    )
       .then((res) => {
         successToastify(res.data.message);
       })

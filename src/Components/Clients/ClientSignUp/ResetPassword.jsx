@@ -3,11 +3,12 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const ResetPassword = ({ match, history }) => {
   const classes = useStyles();
@@ -21,10 +22,13 @@ const ResetPassword = ({ match, history }) => {
     e.preventDefault();
     let data = { email, password };
 
-    await axios
-      .post(`${REACT_APP_ENDPOINT}/reset_password/${token}`, data, {
+    await AuthAxios.post(
+      `${REACT_APP_ENDPOINT}/reset_password/${token}`,
+      data,
+      {
         "Content-Type": "application/json",
-      })
+      }
+    )
       .then((res) => {
         successToastify(res.data.message);
         return history.push({

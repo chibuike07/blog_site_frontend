@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import axios from "axios";
+
 import { AdminContext } from "../../Context_files/AdminContext";
 import { errorToastify } from "../../Common/react_toastify/toastify";
 import AdminPostCard from "./AdminPostCard";
@@ -10,6 +10,7 @@ import {
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "../../Common/Image.component/Image";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const PreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -20,10 +21,13 @@ const PreviewComment = ({ match, history }) => {
   const { postId } = match.params;
   useEffect(() => {
     const fetchCommentById = async () => {
-      await axios
-        .get(`${REACT_APP_ENDPOINT}/admin/get_single_post/${postId}`, {
+      await AuthAxios.get(
+        `${REACT_APP_ENDPOINT}/admin/get_single_post/${postId}`,
+        {
           "Content-Type": "application/json",
-        })
+          withCredentials: true,
+        }
+      )
         .then((res) => {
           console.log("res", res.data.posterName);
           setState((data) => ({
@@ -52,14 +56,20 @@ const PreviewComment = ({ match, history }) => {
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-              {console.log("object", specifiedPostCommentPoster[index])}
-              {specifiedPostCommentPoster[index].firstName}{" "}
-              {specifiedPostCommentPoster[index].lastName}
+              {/* {console.log("object", specifiedPostCommentPoster[index])} */}
+              {specifiedPostCommentPoster.length &&
+                specifiedPostCommentPoster[index].firstName}{" "}
+              {specifiedPostCommentPoster.length &&
+                specifiedPostCommentPoster[index].lastName}
             </span>
             <div className="card" style={{ width: "5%" }}>
-              {specifiedPostCommentPoster[index].profileImage ? (
+              {specifiedPostCommentPoster.length &&
+              specifiedPostCommentPoster[index].profileImage ? (
                 <Image
-                  src={specifiedPostCommentPoster[index].profileImage}
+                  src={
+                    specifiedPostCommentPoster.length &&
+                    specifiedPostCommentPoster[index].profileImage
+                  }
                   className="card-img"
                   borderRadius="50%"
                 />
@@ -69,8 +79,10 @@ const PreviewComment = ({ match, history }) => {
                   style={{ height: "7vh" }}
                 >
                   <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-                    {specifiedPostCommentPoster[index].firstName[0]}{" "}
-                    {specifiedPostCommentPoster[index].lastName[0]}
+                    {specifiedPostCommentPoster.length &&
+                      specifiedPostCommentPoster[index].firstName[0]}{" "}
+                    {specifiedPostCommentPoster.length &&
+                      specifiedPostCommentPoster[index].lastName[0]}
                   </span>
                 </div>
               )}

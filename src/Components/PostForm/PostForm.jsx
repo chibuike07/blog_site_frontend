@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Input from "../../Common/Input.component/Input";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
 } from "../../Common/react_toastify/toastify";
 import Button from "../../Common/Button.component/Button";
 import TextArea from "../../Common/Textarea/TextArea";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const PostForm = ({ url, updateUrl, post }) => {
   const [title, setTitle] = useState("");
@@ -19,11 +20,10 @@ const PostForm = ({ url, updateUrl, post }) => {
         value.body = body ? body : value.body;
         value.status = true;
 
-        await axios
-          .put(`${updateUrl}`, value, {
-            "Content-Type": "application/json",
-            withCredentials: true,
-          })
+        await AuthAxios.put(`${updateUrl}`, value, {
+          "Content-Type": "application/json",
+          withCredentials: true,
+        })
           .then((res) => {
             successToastify(res.data.message);
             setTitle("");
@@ -41,11 +41,10 @@ const PostForm = ({ url, updateUrl, post }) => {
     e.preventDefault();
     let data = { title, body };
 
-    await axios
-      .post(`${url}`, data, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
+    await AuthAxios.post(`${url}`, data, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         successToastify(res.data.message);
         setTitle("");

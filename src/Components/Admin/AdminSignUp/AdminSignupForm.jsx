@@ -6,12 +6,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
 import CustomLink from "../../../Common/Link.component/Link";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const AdminForm = ({ url, history }) => {
   const classes = useStyles();
@@ -23,13 +24,12 @@ const AdminForm = ({ url, history }) => {
     e.preventDefault();
     let data = { email, password };
 
-    await axios
-      .post(`${url}`, data, {
-        "Content-Type": "application/json",
-      })
+    await AuthAxios.post(`${url}`, data, {
+      "Content-Type": "application/json",
+    })
       .then((res) => {
         successToastify(res.data.message);
-        // history.push("/login");
+        history.push("/login");
       })
       .catch((err) =>
         err.response === undefined

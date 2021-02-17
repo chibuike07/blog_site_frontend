@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input.component/Input.jsx";
 import Button from "../Button.component/Button";
-import axios from "axios";
+
+import { AuthAxios } from "../../helper/CookieRequest.js";
 
 const CustomSignupForm = ({ showFirstLast, clientSignUp, ClientLogin }) => {
   const [firstName, setFirstName] = useState("");
@@ -23,10 +24,9 @@ const CustomSignupForm = ({ showFirstLast, clientSignUp, ClientLogin }) => {
       url = ClientLogin;
     }
 
-    await axios
-      .post(`${url}`, data, {
-        "Content-Type": "application/json",
-      })
+    await AuthAxios.post(`${url}`, data, {
+      "Content-Type": "application/json",
+    })
       .then((res) => console.log("res.data", res.data))
       .catch((err) =>
         err.respomse === undefined

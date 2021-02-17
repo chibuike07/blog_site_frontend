@@ -14,8 +14,9 @@ import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify.jsx";
-import Axios from "axios";
+
 import Image from "../../../Common/Image.component/Image";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const ProfilePersonalData = () => {
   //destructure personal data
@@ -71,10 +72,14 @@ const ProfilePersonalData = () => {
       phone,
     };
 
-    await Axios.put(`${REACT_APP_ENDPOINT}/user/update_profile`, currentState, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
+    await AuthAxios.put(
+      `${REACT_APP_ENDPOINT}/user/update_profile`,
+      currentState,
+      {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      }
+    )
       .then((res) => {
         //alert the user of the success updating of the data
         successToastify(res.data.message);
@@ -106,11 +111,12 @@ const ProfilePersonalData = () => {
     const Forms = new FormData();
 
     Forms.append("file", target.files[0]);
-    await Axios.put(`${REACT_APP_ENDPOINT}/profile/image`, Forms, {
+    await AuthAxios.put(`${REACT_APP_ENDPOINT}/profile/image`, Forms, {
       "Content-Type": "application/json",
       withCredentials: true,
     })
       .then((res) => {
+        console.log("res.data", res.data);
         setstate((data) => ({
           ...data,
           personalData: res.data.data,

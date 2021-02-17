@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const LoginFromMail = ({ match, history }) => {
   console.log(match);
@@ -14,10 +15,9 @@ const LoginFromMail = ({ match, history }) => {
     const loginFromEmail = async () => {
       let data = { email, password };
 
-      await axios
-        .post(`${REACT_APP_ENDPOINT}/client/login`, data, {
-          "Content-Type": "application/json",
-        })
+      await AuthAxios.post(`${REACT_APP_ENDPOINT}/client/login`, data, {
+        "Content-Type": "application/json",
+      })
         .then((res) => {
           successToastify(res.data.message);
           sessionStorage.setItem("client", "client");

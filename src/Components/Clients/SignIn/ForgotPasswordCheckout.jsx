@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import Input from "../../../Common/Input.component/Input";
-import axios from "axios";
+
 import Button from "../../../Common/Button.component/Button";
 import ReactModal from "react-modal";
 import { UserContext } from "../../../Context_files/UserContext";
@@ -8,6 +8,7 @@ import {
   errorToastify,
   successToastify,
 } from "../../../Common/react_toastify/toastify";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 ReactModal.setAppElement("#root");
 const ForgotPasswordCheckout = ({ url, openModal, setModal }) => {
@@ -16,14 +17,13 @@ const ForgotPasswordCheckout = ({ url, openModal, setModal }) => {
   const [email, setemail] = useState("");
   const handleForgetPassword = async (e) => {
     e.preventDefault();
-    await axios
-      .post(
-        url,
-        { email },
-        {
-          "Content-Type": "application/json",
-        }
-      )
+    await AuthAxios.post(
+      url,
+      { email },
+      {
+        "Content-Type": "application/json",
+      }
+    )
       .then((res) => {
         successToastify(res.data.message);
         setModal(false);

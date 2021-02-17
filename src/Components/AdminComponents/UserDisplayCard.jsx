@@ -10,12 +10,13 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { AdminContext } from "../../Context_files/AdminContext";
-import axios from "axios";
+
 import {
   successToastify,
   errorToastify,
 } from "../../Common/react_toastify/toastify";
 import ToggleButton from "../../Common/ToggleButton/ToggleButton";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const DisplayUsersCard = ({ history }) => {
   const [{ usersList }] = useContext(AdminContext);
@@ -26,13 +27,14 @@ const DisplayUsersCard = ({ history }) => {
   };
 
   const handleDeleteUser = async ({ _id }) => {
-    await axios
-      .delete(`${REACT_APP_ENDPOINT}/admin/delete_client/${_id}`, {
-        "Content-Type": "application/json",
-      })
+    console.log("_id", _id);
+    await AuthAxios.delete(`${REACT_APP_ENDPOINT}/admin/clear_client/${_id}`, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         console.log("res.data", res.data);
-        successToastify(res.data.data.message);
+        successToastify(res.data.message);
       })
       .catch((err) =>
         err.response === undefined

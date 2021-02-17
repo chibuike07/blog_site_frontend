@@ -6,12 +6,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-import axios from "axios";
+
 import CustomLink from "../../../Common/Link.component/Link";
 import {
   successToastify,
   errorToastify,
 } from "../../../Common/react_toastify/toastify";
+import { AuthAxios } from "../../../helper/CookieRequest";
 
 const AdminSignInForm = ({ url, history }) => {
   const classes = useStyles();
@@ -23,16 +24,14 @@ const AdminSignInForm = ({ url, history }) => {
     e.preventDefault();
     let data = { email, password };
 
-    await axios
-      .post(`${url}`, data, {
-        "Content-Type": "application/json",
-      })
+    await AuthAxios.post(`${url}`, data, {
+      "Content-Type": "application/json",
+      withCredentials: true,
+    })
       .then((res) => {
         console.log("res.data", res.data);
         successToastify(res.data.message);
         sessionStorage.setItem("admin", "admin");
-
-        document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
 
         // navigating to the dashboard
         return history.push({

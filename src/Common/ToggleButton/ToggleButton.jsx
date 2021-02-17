@@ -1,13 +1,14 @@
 import React, { useRef, useState, useContext, useEffect } from "react";
 import ToggleButtonStyles from "./ToggleButton.module.css";
-import axios from "axios";
 import { errorToastify, successToastify } from "../react_toastify/toastify";
+import { AuthAxios } from "../../helper/CookieRequest";
 
 const ToggleButton = ({ status, id }) => {
   const { overAllWrapper, container, wrapper, btn, text } = ToggleButtonStyles;
   const toggle = useRef();
   const [isToggling, setisToggling] = useState(false);
   const { REACT_APP_ENDPOINT } = process.env;
+
   const handleToggeleTrue = async () => {
     console.log("status", status);
     if (status === false) {
@@ -20,13 +21,14 @@ const ToggleButton = ({ status, id }) => {
       setisToggling(false);
     }
 
-    await axios
-      .put(
-        `${REACT_APP_ENDPOINT}/admin/update_client_status/${id}?active=${status}`,
-        {
-          "Content-Type": "application/json",
-        }
-      )
+    await AuthAxios.put(
+      `${REACT_APP_ENDPOINT}/admin/update_client_status/${id}`,
+      { active: status },
+      {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      }
+    )
       .then((res) => {
         successToastify(res.data.message);
         console.log("isTo", isToggling);
