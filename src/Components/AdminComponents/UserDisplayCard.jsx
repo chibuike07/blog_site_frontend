@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Image from "../../Common/Image.component/Image";
 import Button from "../../Common/Button.component/Button";
+import { AuthAxios } from "../../helper/CookieRequest";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
@@ -16,18 +17,17 @@ import {
   errorToastify,
 } from "../../Common/react_toastify/toastify";
 import ToggleButton from "../../Common/ToggleButton/ToggleButton";
-import { AuthAxios } from "../../helper/CookieRequest";
+import UpdateClientProfileMadal from "../AdminComponents/UpdateClientProfileModal";
 
 const DisplayUsersCard = ({ history }) => {
-  const [{ usersList }] = useContext(AdminContext);
+  const [{ usersList }, setState] = useContext(AdminContext);
   const { REACT_APP_ENDPOINT } = process.env;
-
+  const [openModal, setModal] = useState(false);
   const handlePreviewSingleUser = ({ _id }) => {
     history.push(`/admin/preview_user/${_id}`);
   };
 
   const handleDeleteUser = async ({ _id }) => {
-    console.log("_id", _id);
     await AuthAxios.delete(`${REACT_APP_ENDPOINT}/admin/clear_client/${_id}`, {
       "Content-Type": "application/json",
       withCredentials: true,
@@ -41,6 +41,33 @@ const DisplayUsersCard = ({ history }) => {
           ? false
           : errorToastify(err.response.data.message)
       );
+  };
+
+  const handleUpdateClientProfile = async ({ _id }) => {
+    const fetchSingleUser = async () => {
+      await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/get_one_client/${_id}`, {
+        "Content-Type": "application/json",
+        withCredentials: true,
+      })
+        .then((res) => {
+          console.log("res.data.data", res.data.data);
+          setState((data) => ({
+            ...data,
+            specifiedUserData: res.data.data,
+          }));
+
+          setModal(true);
+        })
+        .catch(
+          (err) =>
+            err.response === undefined
+              ? false
+              : errorToastify(err.response.data.message)
+          // console.log("err.response", err.response)
+        );
+    };
+    fetchSingleUser();
+    return [fetchSingleUser];
   };
 
   const UsersListData = usersList ? (
@@ -160,9 +187,24 @@ const DisplayUsersCard = ({ history }) => {
                     className="btn"
                     backgroundColor=" rgb(48, 187, 181)"
                   />
+                  <br />
+                  <Button
+                    text={"Update Profile"}
+                    click={() =>
+                      handleUpdateClientProfile({
+                        _id,
+                      })
+                    }
+                    className="btn"
+                    backgroundColor=" rgb(48, 187, 181)"
+                  />
                 </div>
               </div>
             </div>
+            <UpdateClientProfileMadal
+              openModal={openModal}
+              setModal={setModal}
+            />
           </div>
         );
       }

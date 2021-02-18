@@ -27,6 +27,7 @@ const ResetPassword = ({ match, history }) => {
       data,
       {
         "Content-Type": "application/json",
+        withCredentials: true,
       }
     )
       .then((res) => {

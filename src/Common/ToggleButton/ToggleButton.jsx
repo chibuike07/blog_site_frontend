@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import ToggleButtonStyles from "./ToggleButton.module.css";
 import { errorToastify, successToastify } from "../react_toastify/toastify";
 import { AuthAxios } from "../../helper/CookieRequest";
@@ -68,7 +68,7 @@ const ToggleButton = ({ status, id }) => {
         </div>
       </div>
       <div className={text}>
-        <span>status</span>
+        <span>{status ? "active" : "deactivated"}</span>
       </div>
     </div>
   );
