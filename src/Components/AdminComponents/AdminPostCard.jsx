@@ -6,16 +6,14 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import List from "../../Common/List.component/List";
 import TextArea from "../../Common/Textarea/TextArea";
 import Button from "../../Common/Button.component/Button";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../Common/react_toastify/toastify";
-
 import PostText from "../UserMutations/PostText";
 import { AdminContext } from "../../Context_files/AdminContext";
-import { AuthAxios } from "../../helper/CookieRequest";
-
+import {
+  handleComment,
+  handleSubmitComment,
+  handleDropDownClick,
+  handleCommentTitleClick,
+} from "./utils/AdminPostCard";
 const AdminPostCard = ({ title, body, id, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const [disableLoader, setDisableLoader] = useState(true);
@@ -24,70 +22,7 @@ const AdminPostCard = ({ title, body, id, history }) => {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
-  const [{ AdminCommentMutation }] = useContext(AdminContext);
-
-  const handleComment = () => {
-    setShowDropDown((currentVal) => !currentVal);
-    setShowCommentBox(false);
-  };
-
-  const handleDeletePostByUser = async () => {
-    await AuthAxios.delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => successToastify(res.data.message))
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleDropDownClick = async (value) => {
-    switch (value.toLowerCase()) {
-      case "comment":
-        setShowCommentBox(true);
-        setShowForm(false);
-        break;
-      case "edit":
-        setShowCommentBox(false);
-        setShowForm(true);
-        break;
-
-      case "delete":
-        handleDeletePostByUser();
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSubmitComment = async (postId) => {
-    setShowCommentBox(false);
-    await AuthAxios.put(
-      `${REACT_APP_ENDPOINT}/comment/${postId}`,
-      { message },
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        successToastify(res.data.message);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleCommentTitleClick = ({ id }) => {
-    history.push({
-      pathname: `/admin/preview_comment/${id}`,
-    });
-  };
+  const [{ AdminCommentMutation }, setState] = useContext(AdminContext);
 
   useEffect(() => {
     const setTimeOutOnLoader = window.setTimeout(() => {
@@ -97,7 +32,7 @@ const AdminPostCard = ({ title, body, id, history }) => {
     return () => {
       clearTimeout(setTimeOutOnLoader);
     };
-  }, [REACT_APP_ENDPOINT]);
+  }, [REACT_APP_ENDPOINT, id, setState]);
 
   const feed = title ? (
     <div
@@ -117,7 +52,7 @@ const AdminPostCard = ({ title, body, id, history }) => {
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
-              onClick={() => handleCommentTitleClick({ id })}
+              onClick={() => handleCommentTitleClick({ id, history })}
             >
               {title}
             </h2>
@@ -126,7 +61,9 @@ const AdminPostCard = ({ title, body, id, history }) => {
           <div>
             <FontAwesomeIcon
               icon={faEllipsisV}
-              onClick={() => handleComment()}
+              onClick={() =>
+                handleComment({ setShowDropDown, setShowCommentBox })
+              }
               cursor="pointer"
             />
             <div className={"container"}>
@@ -141,7 +78,14 @@ const AdminPostCard = ({ title, body, id, history }) => {
                         listStyle="none"
                         className="container-fluid"
                         cursor="pointer"
-                        click={() => handleDropDownClick(value)}
+                        click={() =>
+                          handleDropDownClick({
+                            value,
+                            setShowCommentBox,
+                            setShowForm,
+                            id,
+                          })
+                        }
                         color="gray"
                       />
                     ))}
@@ -185,7 +129,9 @@ const AdminPostCard = ({ title, body, id, history }) => {
                 border="none"
                 padding="1%"
                 backgroundColor="blue"
-                click={() => handleSubmitComment(id)}
+                click={() =>
+                  handleSubmitComment({ id, message, setShowCommentBox })
+                }
                 borderRadius="5px"
               />
             </div>

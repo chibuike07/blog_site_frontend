@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { errorToastify } from "../../Common/react_toastify/toastify";
 
 import PreviewUser from "../AdminComponents/PreviewUsers";
 import { AuthAxios } from "../../helper/CookieRequest";

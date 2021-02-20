@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Image from "../../Common/Image.component/Image";
 import Button from "../../Common/Button.component/Button";
-import { AuthAxios } from "../../helper/CookieRequest";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
@@ -12,63 +11,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { AdminContext } from "../../Context_files/AdminContext";
 
-import {
-  successToastify,
-  errorToastify,
-} from "../../Common/react_toastify/toastify";
 import ToggleButton from "../../Common/ToggleButton/ToggleButton";
 import UpdateClientProfileMadal from "../AdminComponents/UpdateClientProfileModal";
+import {
+  handleDeleteUser,
+  fetchSingleUser,
+  handlePreviewSingleUser,
+} from "./utils/UserDisplayCard";
 
 const DisplayUsersCard = ({ history }) => {
   const [{ usersList }, setState] = useContext(AdminContext);
-  const { REACT_APP_ENDPOINT } = process.env;
+
   const [openModal, setModal] = useState(false);
-  const handlePreviewSingleUser = ({ _id }) => {
-    history.push(`/admin/preview_user/${_id}`);
-  };
-
-  const handleDeleteUser = async ({ _id }) => {
-    await AuthAxios.delete(`${REACT_APP_ENDPOINT}/admin/clear_client/${_id}`, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        console.log("res.data", res.data);
-        successToastify(res.data.message);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleUpdateClientProfile = async ({ _id }) => {
-    const fetchSingleUser = async () => {
-      await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/get_one_client/${_id}`, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
-        .then((res) => {
-          console.log("res.data.data", res.data.data);
-          setState((data) => ({
-            ...data,
-            specifiedUserData: res.data.data,
-          }));
-
-          setModal(true);
-        })
-        .catch(
-          (err) =>
-            err.response === undefined
-              ? false
-              : errorToastify(err.response.data.message)
-          // console.log("err.response", err.response)
-        );
-    };
-    fetchSingleUser();
-    return [fetchSingleUser];
-  };
 
   const UsersListData = usersList ? (
     usersList.map(
@@ -171,6 +125,7 @@ const DisplayUsersCard = ({ history }) => {
                     click={() =>
                       handlePreviewSingleUser({
                         _id,
+                        history,
                       })
                     }
                     className="btn"
@@ -191,8 +146,10 @@ const DisplayUsersCard = ({ history }) => {
                   <Button
                     text={"Update Profile"}
                     click={() =>
-                      handleUpdateClientProfile({
+                      fetchSingleUser({
                         _id,
+                        setModal,
+                        setState,
                       })
                     }
                     className="btn"

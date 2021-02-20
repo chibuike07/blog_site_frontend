@@ -1,70 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Input from "../../Common/Input.component/Input";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../Common/react_toastify/toastify";
 import Button from "../../Common/Button.component/Button";
 import TextArea from "../../Common/Textarea/TextArea";
-import { AuthAxios } from "../../helper/CookieRequest";
+import { handleEditForm, handleSubmit, addtoState } from "../utils/PostForm";
 
 const PostForm = ({ url, updateUrl, post }) => {
   const [title, setTitle] = useState("");
   const [body, setPost] = useState("");
 
-  const handleEditForm = async () => {
-    post &&
-      post.map(async (value) => {
-        value.title = title ? title : value.title;
-        value.body = body ? body : value.body;
-        value.status = true;
-
-        await AuthAxios.put(`${updateUrl}`, value, {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        })
-          .then((res) => {
-            successToastify(res.data.message);
-            setTitle("");
-            setPost("");
-          })
-          .catch((err) =>
-            err.response === undefined
-              ? false
-              : errorToastify(err.response.data.message)
-          );
-      });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { title, body };
-
-    await AuthAxios.post(`${url}`, data, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        successToastify(res.data.message);
-        setTitle("");
-        setPost("");
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
   useEffect(() => {
-    const addtoState = () => {
-      if (post.length) {
-        setPost(post[0].body);
-        setTitle(post[0].title);
-      }
-    };
-    addtoState();
+    addtoState({ post, setPost, setTitle });
 
     return [addtoState];
   }, [post]);
@@ -80,7 +25,12 @@ const PostForm = ({ url, updateUrl, post }) => {
           <h2>Post Blog</h2>
         </div>
         <div className="card-body">
-          <form onSubmit={handleSubmit} className="form-group">
+          <form
+            onSubmit={(e) =>
+              handleSubmit({ e, setTitle, setPost, url, title, body })
+            }
+            className="form-group"
+          >
             <Input
               type="text"
               placeholder="Add Title"
@@ -122,7 +72,16 @@ const PostForm = ({ url, updateUrl, post }) => {
               backgroundColor={"blue"}
               width="100px"
               marginRight="1rem"
-              click={() => handleEditForm()}
+              click={() =>
+                handleEditForm({
+                  title,
+                  body,
+                  post,
+                  setPost,
+                  setTitle,
+                  updateUrl,
+                })
+              }
             />
           </div>
         </div>

@@ -1,7 +1,5 @@
 import React, { useEffect, useContext } from "react";
-
 import { AdminContext } from "../../Context_files/AdminContext";
-import { errorToastify } from "../../Common/react_toastify/toastify";
 import AdminPostCard from "./AdminPostCard";
 import Lists from "../../Common/List.component/List";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +8,7 @@ import {
   faArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "../../Common/Image.component/Image";
-import { AuthAxios } from "../../helper/CookieRequest";
+import { fetchCommentById } from "./utils/PreViewComment";
 
 const PreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -20,29 +18,7 @@ const PreviewComment = ({ match, history }) => {
 
   const { postId } = match.params;
   useEffect(() => {
-    const fetchCommentById = async () => {
-      await AuthAxios.get(
-        `${REACT_APP_ENDPOINT}/admin/get_single_post/${postId}`,
-        {
-          "Content-Type": "application/json",
-          withCredentials: true,
-        }
-      )
-        .then((res) => {
-          console.log("res", res.data.posterName);
-          setState((data) => ({
-            ...data,
-            specifiedPost: res.data.data,
-            specifiedPostCommentPoster: res.data.posterName,
-          }));
-        })
-        .catch((err) =>
-          err.response === undefined
-            ? false
-            : errorToastify(err.response.data.message)
-        );
-    };
-    fetchCommentById();
+    fetchCommentById({ postId, setState });
 
     return [fetchCommentById];
   }, [REACT_APP_ENDPOINT, postId, setState]);

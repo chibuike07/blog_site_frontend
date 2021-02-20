@@ -3,48 +3,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import { handleSubmit } from "../util/ResetPassword";
 
 const ResetPassword = ({ match, history }) => {
   const classes = useStyles();
-  const { REACT_APP_ENDPOINT } = process.env;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { email, password };
-
-    await AuthAxios.post(
-      `${REACT_APP_ENDPOINT}/reset_password/${token}`,
-      data,
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        successToastify(res.data.message);
-        return history.push({
-          pathname: "/login",
-          state: { email, password },
-        });
-      })
-      .catch(
-        (err) =>
-          err.response === undefined
-            ? false
-            : console.log("err.response", err.response)
-        //    errorToastify(err.response.data.message)
-      );
-  };
 
   useEffect(() => {
     const checkForToken = () => {
@@ -61,7 +27,11 @@ const ResetPassword = ({ match, history }) => {
       <div className="card-title">
         <h4>Reset Password</h4>
       </div>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      <form
+        className={classes.form}
+        noValidate
+        onSubmit={(e) => handleSubmit({ e, token, email, password, history })}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
