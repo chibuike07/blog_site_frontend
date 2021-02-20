@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify";
 import CustomLink from "../../../Common/Link.component/Link";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import { handleSubmit } from "../util/ClientSignup";
 
 const Form = ({ history, url }) => {
   const classes = useStyles();
@@ -22,26 +15,14 @@ const Form = ({ history, url }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { firstName, lastName, email, password };
-
-    await AuthAxios.post(`${url}`, data, {
-      "Content-Type": "application/json",
-    })
-      .then((res) => {
-        successToastify(res.data.message);
-        history.push("/login");
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
   return (
-    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+    <form
+      className={classes.form}
+      noValidate
+      onSubmit={(e) =>
+        handleSubmit({ e, firstName, lastName, email, password, url, history })
+      }
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField

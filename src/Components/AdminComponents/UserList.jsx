@@ -14,15 +14,7 @@ import Button from "../../Common/Button.component/Button";
 import { CSVLink } from "react-csv";
 
 const UserListPage = () => {
-  const {
-    container,
-    wrapper,
-    belowButton,
-    belowWrapper,
-    download,
-    button,
-    btn,
-  } = UserListPageStyles;
+  const { container, wrapper } = UserListPageStyles;
   const [
     {
       showAllList,

@@ -5,7 +5,6 @@ import Lists from "../../Common/List.component/List";
 const RegisteredIpAddress = () => {
   const [{ registeredIp }] = useContext(AdminContext);
 
-  console.log("registeredIp", registeredIp);
   const ips = registeredIp ? (
     registeredIp.map(
       (

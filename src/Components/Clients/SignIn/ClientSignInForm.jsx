@@ -4,14 +4,12 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-
 import CustomLink from "../../../Common/Link.component/Link";
-import {
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify";
 import ForgotPasswordCheckout from "./ForgotPasswordCheckout";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import {
+  handleSubmit,
+  handleDisplayForgetPasswordForm,
+} from "../util/ClientSignInForm";
 
 const Form = ({ url, history }) => {
   const classes = useStyles();
@@ -23,39 +21,13 @@ const Form = ({ url, history }) => {
     false
   );
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { email, password };
-
-    await AuthAxios.post(`${url}`, data, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        successToastify(res.data.message);
-        sessionStorage.setItem("client", "client");
-
-        // navigating to the dashboard
-        return history.push({
-          pathname: "/dashboard",
-        });
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleDisplayForgetPasswordForm = (e) => {
-    e.preventDefault();
-    setDisplayForgotPasswordForm(true);
-    setOpenModal(true);
-  };
-
   return (
     <>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      <form
+        className={classes.form}
+        noValidate
+        onSubmit={(e) => handleSubmit({ e, email, password, history, url })}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -102,7 +74,13 @@ const Form = ({ url, history }) => {
               url={""}
               color="blue"
               text="Forgot password?"
-              click={(e) => handleDisplayForgetPasswordForm(e)}
+              click={(e) =>
+                handleDisplayForgetPasswordForm({
+                  e,
+                  setDisplayForgotPasswordForm,
+                  setOpenModal,
+                })
+              }
             />
           </Grid>
           <Grid item>

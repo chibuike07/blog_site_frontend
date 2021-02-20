@@ -1,16 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import Input from "../../Common/Input.component/Input";
-
 // import Button from "../../Common/Button.component/Button";
 import ReactModal from "react-modal";
-
-import {
-  errorToastify,
-  successToastify,
-} from "../../Common/react_toastify/toastify";
-import { AuthAxios } from "../../helper/CookieRequest";
 import { AdminContext } from "../../Context_files/AdminContext";
-import { infoToastify } from "../../Common/react_toastify/toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimesCircle,
@@ -19,6 +11,15 @@ import {
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "../../Common/Image.component/Image";
+import {
+  handleEditPersonalData,
+  handleUpdatePersonalData,
+  handleCancelUpdatePersonalData,
+  handleToggleLabel,
+  handleMouseLeaveOnProfileContainer,
+  handleUploadImage,
+  setDataToState,
+} from "./utils/UpdateClientProfileModal";
 
 ReactModal.setAppElement("#root");
 
@@ -44,120 +45,23 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
 
   const { REACT_APP_ENDPOINT } = process.env;
 
-  //handling the editing of the personal data
-  const handleEditPersonalData = () => {
-    //setting the inputs to the read only
-    sethandleDisplay(false);
-
-    //prompting a message to the user
-    infoToastify("please proceed to editing of your personal details");
-  };
-
-  //setting the userData to the default data when cancelled
-  const handleCancelUpdatePersonalData = () => {
-    setfirstName(specifiedUserData[0].firstName);
-    setlastName(specifiedUserData[0].lastName);
-    setemail(specifiedUserData[0].email);
-    sethandleDisplay(true);
-    setModal(false);
-  };
-
-  //sending the updated data to the server
-  const handleUpdatePersonalData = async () => {
-    let contact = {
-      address,
-      city,
-      state,
-    };
-    let currentState = {
-      firstName,
-      lastName,
-      email,
-      contact,
-      phone,
-    };
-
-    await AuthAxios.put(
-      `${REACT_APP_ENDPOINT}/admin/put_client_profile/${ID}`,
-      currentState,
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        //alert the user of the success updating of the data
-        successToastify(res.data.message);
-
-        //set fields to read only
-        sethandleDisplay(true);
-
-        // close modal
-        setModal(false);
-      })
-
-      //watching for error
-      .catch((error) =>
-        error.response === undefined
-          ? false
-          : errorToastify(error.response.data.message)
-      );
-  };
-
-  const handleToggleLabel = () => {
-    setDisplayLabel((curVal) => true);
-    setShowAppreviation(false);
-  };
-
-  const handleMouseLeaveOnProfileContainer = () => {
-    setDisplayLabel((curVal) => false);
-    setShowAppreviation(true);
-  };
-
-  const handleUploadImage = async ({ target }) => {
-    setFile(target.value);
-    const Forms = new FormData();
-
-    Forms.append("file", target.files[0]);
-    // await AuthAxios.put(`${REACT_APP_ENDPOINT}/profile/image`, Forms, {
-    //   "Content-Type": "application/json",
-    //   withCredentials: true,
-    // })
-    //   .then((res) => {
-    //     // console.log("res.data", res.data);
-    //     setstate((data) => ({
-    //       ...data,
-    //       specifiedUserData: res.data.data,
-    //     }));
-    //     successToastify(res.data.message);
-    //   })
-    //   .catch((error) =>
-    //     error.response === undefined
-    //       ? false
-    //       : errorToastify(error.response.data.message)
-    //   );
-  };
-
   useEffect(() => {
     //setting the default user data to the fields on mount
-    const setDataToState = () => {
-      if (specifiedUserData.length) {
-        setfirstName(specifiedUserData[0].firstName);
-        setlastName(specifiedUserData[0].lastName);
-        setemail(specifiedUserData[0].email);
-        setphone(specifiedUserData[0].phone);
-        setposts(specifiedUserData[0].posts);
-        setId(specifiedUserData[0]._id);
-        setclientLoggedInIpAddress(
-          specifiedUserData[0].ClientLoggedInIpAddress
-        );
-        setaddress(specifiedUserData[0].contact.address);
-        setcity(specifiedUserData[0].contact.city);
-        setstate(specifiedUserData[0].contact.state);
-        setprofileImage(specifiedUserData[0].profileImage);
-      }
-    };
-    setDataToState();
+
+    setDataToState({
+      specifiedUserData,
+      setfirstName,
+      setlastName,
+      setemail,
+      setphone,
+      setId,
+      setclientLoggedInIpAddress,
+      setaddress,
+      setposts,
+      setcity,
+      setstate,
+      setprofileImage,
+    });
 
     return [setDataToState];
   }, [specifiedUserData, REACT_APP_ENDPOINT]);
@@ -176,12 +80,21 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
             >
               <FontAwesomeIcon
                 icon={faPenFancy}
-                onClick={handleEditPersonalData}
+                onClick={() => handleEditPersonalData({ sethandleDisplay })}
               />
 
               <FontAwesomeIcon
                 icon={faTimesCircle}
-                onClick={handleCancelUpdatePersonalData}
+                onClick={() =>
+                  handleCancelUpdatePersonalData({
+                    setfirstName,
+                    setlastName,
+                    setemail,
+                    sethandleDisplay,
+                    setModal,
+                    specifiedUserData,
+                  })
+                }
                 color="blue"
                 size="2x"
               />
@@ -190,7 +103,20 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 icon={faCheckCircle}
                 color="green"
                 size="2x"
-                onClick={handleUpdatePersonalData}
+                onClick={() =>
+                  handleUpdatePersonalData({
+                    address,
+                    city,
+                    state,
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    ID,
+                    sethandleDisplay,
+                    setModal,
+                  })
+                }
               />
             </div>
           </div>
@@ -202,8 +128,15 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                   backgroundColor: "#000",
                   width: "20%",
                 }}
-                onMouseEnter={handleToggleLabel}
-                onMouseLeave={handleMouseLeaveOnProfileContainer}
+                onMouseEnter={() =>
+                  handleToggleLabel({ setDisplayLabel, setShowAppreviation })
+                }
+                onMouseLeave={() =>
+                  handleMouseLeaveOnProfileContainer({
+                    setDisplayLabel,
+                    setShowAppreviation,
+                  })
+                }
               >
                 <Image
                   src={profileImage}
@@ -218,7 +151,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                     id="image"
                     opacity="0"
                     value={file}
-                    onChange={handleUploadImage}
+                    onChange={(e) => handleUploadImage({ e, setFile })}
                     name="file"
                   />
                 </form>
@@ -251,8 +184,15 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                onMouseEnter={handleToggleLabel}
-                onMouseLeave={handleMouseLeaveOnProfileContainer}
+                onMouseEnter={() =>
+                  handleToggleLabel({ setDisplayLabel, setShowAppreviation })
+                }
+                onMouseLeave={() =>
+                  handleMouseLeaveOnProfileContainer({
+                    setDisplayLabel,
+                    setShowAppreviation,
+                  })
+                }
               >
                 {firstName && showAppreviation && (
                   <h5
@@ -273,7 +213,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                     id="image"
                     opacity="0"
                     value={file}
-                    onChange={handleUploadImage}
+                    onChange={(e) => handleUploadImage({ e, setFile })}
                     name="file"
                   />
                 </form>

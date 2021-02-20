@@ -1,14 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserDisplayCard from "../../Components/AdminComponents/UserDisplayCard";
-
 import { AdminContext } from "../../Context_files/AdminContext";
-import { errorToastify } from "../../Common/react_toastify/toastify";
 import SideBar from "../../Components/SideBar/SidebBar";
 import PostFeeds from "../../Components/AdminComponents/PostFeeds";
 import RegisteredIpAddress from "../../Components/AdminComponents/RegisteredIpAddress";
 import AdminDashboardStaticData from "../../Components/AdminComponents/AdminDashboardStaticData";
 import ScrollBar from "react-scrollbars-custom";
-import { AuthAxios } from "../../helper/CookieRequest";
+
+import {
+  fetchClients,
+  handleFetchPosts,
+  fetchRegisteredIp,
+  fetchLatestLoginClients,
+} from "../../utils/Admin/Requests";
 
 const AdminDashboard = () => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -20,76 +24,6 @@ const AdminDashboard = () => {
   const [displayPosts, setdisplayPosts] = useState(false);
   const [displayRegisteredIp, setdisplayRegisteredIp] = useState(false);
 
-  const fetchClients = async () => {
-    await AuthAxios.get(
-      `${REACT_APP_ENDPOINT}/admin/get_client?page=${1}&limit=${10}`,
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        setState((data) => ({
-          ...data,
-          usersList: res.data.data,
-        }));
-        setdisplayUser(true);
-        setdisplayDashboard(false);
-        setdisplayPosts(false);
-        setdisplayRegisteredIp(false);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleFetchPosts = async () => {
-    await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/getPost`, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        setState((data) => ({
-          ...data,
-          clientPosts: res.data.data,
-        }));
-        setdisplayPosts(true);
-        setdisplayUser(false);
-        setdisplayDashboard(false);
-        setdisplayRegisteredIp(false);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const fetchRegisteredIp = async () => {
-    await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/registeredIp`, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        setState((data) => ({
-          ...data,
-          registeredIp: res.data.data,
-        }));
-
-        setdisplayRegisteredIp(true);
-        setdisplayUser(false);
-        setdisplayDashboard(false);
-        setdisplayPosts(false);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
   const handleSideBarClick = (value) => {
     switch (value.toLowerCase()) {
       case "dashboard":
@@ -100,15 +34,33 @@ const AdminDashboard = () => {
         break;
 
       case "users":
-        fetchClients();
+        fetchClients({
+          setdisplayUser,
+          setdisplayDashboard,
+          setdisplayPosts,
+          setdisplayRegisteredIp,
+          setState,
+        });
         break;
 
       case "posts":
-        handleFetchPosts();
+        handleFetchPosts({
+          setdisplayUser,
+          setdisplayDashboard,
+          setdisplayPosts,
+          setdisplayRegisteredIp,
+          setState,
+        });
         break;
 
       case "registered ip":
-        fetchRegisteredIp();
+        fetchRegisteredIp({
+          setdisplayUser,
+          setdisplayDashboard,
+          setdisplayPosts,
+          setdisplayRegisteredIp,
+          setState,
+        });
         break;
 
       default:
@@ -117,24 +69,7 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    const fetchLatestLoginClients = async () => {
-      await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/dashboard_data`, {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      })
-        .then((res) => {
-          setState((data) => ({
-            ...data,
-            dashBoardStaticData: res.data.data,
-          }));
-        })
-        .catch((err) =>
-          err.response === undefined
-            ? false
-            : errorToastify(err.response.data.message)
-        );
-    };
-    fetchLatestLoginClients();
+    fetchLatestLoginClients({ setState });
     return [fetchLatestLoginClients];
   }, [REACT_APP_ENDPOINT, setState]);
 

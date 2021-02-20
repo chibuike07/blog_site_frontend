@@ -9,14 +9,16 @@ import {
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  infoToastify,
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify.jsx";
-
 import Image from "../../../Common/Image.component/Image";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import {
+  handleEditPersonalData,
+  handleCancelUpdatePersonalData,
+  handleUpdatePersonalData,
+  handleToggleLabel,
+  handleMouseLeaveOnProfileContainer,
+  handleUploadImage,
+  setDataToState,
+} from "../util/ClientProfileData";
 
 const ProfilePersonalData = () => {
   //destructure personal data
@@ -40,113 +42,22 @@ const ProfilePersonalData = () => {
 
   const { REACT_APP_ENDPOINT } = process.env;
 
-  //handling the editing of the personal data
-  const handleEditPersonalData = () => {
-    //setting the inputs to the read only
-    sethandleDisplay(false);
-
-    //prompting a message to the user
-    infoToastify("please proceed to editing of your personal details");
-  };
-
-  //setting the userData to the default data when cancelled
-  const handleCancelUpdatePersonalData = () => {
-    setfirstName(personalData[0].firstName);
-    setlastName(personalData[0].lastName);
-    setemail(personalData[0].email);
-    sethandleDisplay(true);
-  };
-
-  //sending the updated data to the server
-  const handleUpdatePersonalData = async () => {
-    let contact = {
-      address,
-      city,
-      state,
-    };
-    let currentState = {
-      firstName,
-      lastName,
-      email,
-      contact,
-      phone,
-    };
-
-    await AuthAxios.put(
-      `${REACT_APP_ENDPOINT}/user/update_profile`,
-      currentState,
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        //alert the user of the success updating of the data
-        successToastify(res.data.message);
-
-        //set fields to read only
-        sethandleDisplay(true);
-      })
-
-      //watching for error
-      .catch((error) =>
-        error.response === undefined
-          ? false
-          : errorToastify(error.response.data.message)
-      );
-  };
-
-  const handleToggleLabel = () => {
-    setDisplayLabel((curVal) => true);
-    setShowAppreviation(false);
-  };
-
-  const handleMouseLeaveOnProfileContainer = () => {
-    setDisplayLabel((curVal) => false);
-    setShowAppreviation(true);
-  };
-
-  const handleUploadImage = async ({ target }) => {
-    setFile(target.value);
-    const Forms = new FormData();
-
-    Forms.append("file", target.files[0]);
-    await AuthAxios.put(`${REACT_APP_ENDPOINT}/profile/image`, Forms, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        console.log("res.data", res.data);
-        setstate((data) => ({
-          ...data,
-          personalData: res.data.data,
-        }));
-        successToastify(res.data.message);
-      })
-      .catch((error) =>
-        error.response === undefined
-          ? false
-          : errorToastify(error.response.data.message)
-      );
-  };
-
   useEffect(() => {
     //setting the default user data to the fields on mount
-    const setDataToState = () => {
-      if (personalData.length) {
-        setfirstName(personalData[0].firstName);
-        setlastName(personalData[0].lastName);
-        setemail(personalData[0].email);
-        setphone(personalData[0].phone);
-        setposts(personalData[0].posts);
-        setclientLoggedInIpAddress(personalData[0].ClientLoggedInIpAddress);
-        setaddress(personalData[0].contact.address);
-        setcity(personalData[0].contact.city);
-        setstate(personalData[0].contact.state);
-        setprofileImage(personalData[0].profileImage);
-      }
-    };
-    setDataToState();
+
+    setDataToState({
+      personalData,
+      setfirstName,
+      setlastName,
+      setemail,
+      setphone,
+      setclientLoggedInIpAddress,
+      setaddress,
+      setposts,
+      setcity,
+      setstate,
+      setprofileImage,
+    });
 
     return [setDataToState];
   }, [personalData, REACT_APP_ENDPOINT]);
@@ -164,12 +75,20 @@ const ProfilePersonalData = () => {
           >
             <FontAwesomeIcon
               icon={faPenFancy}
-              onClick={handleEditPersonalData}
+              onClick={() => handleEditPersonalData({ sethandleDisplay })}
             />
 
             <FontAwesomeIcon
               icon={faTimesCircle}
-              onClick={handleCancelUpdatePersonalData}
+              onClick={() =>
+                handleCancelUpdatePersonalData({
+                  personalData,
+                  setfirstName,
+                  setlastName,
+                  setemail,
+                  sethandleDisplay,
+                })
+              }
               color="blue"
               size="2x"
             />
@@ -178,7 +97,18 @@ const ProfilePersonalData = () => {
               icon={faCheckCircle}
               color="green"
               size="2x"
-              onClick={handleUpdatePersonalData}
+              onClick={() =>
+                handleUpdatePersonalData({
+                  address,
+                  city,
+                  state,
+                  firstName,
+                  lastName,
+                  email,
+                  phone,
+                  sethandleDisplay,
+                })
+              }
             />
           </div>
         </div>
@@ -190,8 +120,15 @@ const ProfilePersonalData = () => {
                 backgroundColor: "#000",
                 width: "20%",
               }}
-              onMouseEnter={handleToggleLabel}
-              onMouseLeave={handleMouseLeaveOnProfileContainer}
+              onMouseEnter={() =>
+                handleToggleLabel({ setDisplayLabel, setShowAppreviation })
+              }
+              onMouseLeave={() =>
+                handleMouseLeaveOnProfileContainer({
+                  setDisplayLabel,
+                  setShowAppreviation,
+                })
+              }
             >
               <Image
                 src={profileImage}
@@ -206,7 +143,7 @@ const ProfilePersonalData = () => {
                   id="image"
                   opacity="0"
                   value={file}
-                  onChange={handleUploadImage}
+                  onChange={(e) => handleUploadImage({ e, setstate, setFile })}
                   name="file"
                 />
               </form>
@@ -239,8 +176,15 @@ const ProfilePersonalData = () => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onMouseEnter={handleToggleLabel}
-              onMouseLeave={handleMouseLeaveOnProfileContainer}
+              onMouseEnter={() =>
+                handleToggleLabel({ setDisplayLabel, setShowAppreviation })
+              }
+              onMouseLeave={() =>
+                handleMouseLeaveOnProfileContainer({
+                  setDisplayLabel,
+                  setShowAppreviation,
+                })
+              }
             >
               {firstName && showAppreviation && (
                 <h5
@@ -261,7 +205,7 @@ const ProfilePersonalData = () => {
                   id="image"
                   opacity="0"
                   value={file}
-                  onChange={handleUploadImage}
+                  onChange={(e) => handleUploadImage({ e, setstate, setFile })}
                   name="file"
                 />
               </form>

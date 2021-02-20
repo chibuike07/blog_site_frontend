@@ -1,42 +1,19 @@
 import { useState } from "react";
 import Input from "../../../Common/Input.component/Input";
-
 import Button from "../../../Common/Button.component/Button";
 import ReactModal from "react-modal";
-
-import {
-  errorToastify,
-  successToastify,
-} from "../../../Common/react_toastify/toastify";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import { handleForgetPassword } from "../util/ForgotPasswordCheckOut";
 
 ReactModal.setAppElement("#root");
 const ForgotPasswordCheckout = ({ url, openModal, setModal }) => {
   const [email, setemail] = useState("");
-  const handleForgetPassword = async (e) => {
-    e.preventDefault();
-    await AuthAxios.post(
-      url,
-      { email },
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        successToastify(res.data.message);
-        setModal(false);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
 
   return (
     <ReactModal isOpen={openModal}>
-      <form className="form-group" onSubmit={handleForgetPassword}>
+      <form
+        className="form-group"
+        onSubmit={(e) => handleForgetPassword({ e, url, setModal, email })}
+      >
         <Input
           className="form-control"
           type="email"

@@ -17,14 +17,11 @@ const LoginFromMail = ({ match, history }) => {
 
       await AuthAxios.post(`${REACT_APP_ENDPOINT}/client/login`, data, {
         "Content-Type": "application/json",
+        withCredentials: true,
       })
         .then((res) => {
           successToastify(res.data.message);
           sessionStorage.setItem("client", "client");
-          console.log("token", res.data.token);
-          document.cookie = `${process.env.REACT_APP_COOKIE_NAME_USER}=${res.data.token}`;
-
-          console.log("document", document.cookie);
 
           // navigating to the dashboard
           return history.push({

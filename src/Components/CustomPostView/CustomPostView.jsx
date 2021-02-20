@@ -5,14 +5,13 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import List from "../../Common/List.component/List";
 import TextArea from "../../Common/Textarea/TextArea";
 import Button from "../../Common/Button.component/Button";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../Common/react_toastify/toastify";
 import { UserContext } from "../../Context_files/UserContext";
 import PostText from "../UserMutations/PostText";
-import { AuthAxios } from "../../helper/CookieRequest";
+import {
+  handleComment,
+  handleSubmitComment,
+  handleDropDownClick,
+} from "../utils/CustomPostView";
 
 const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -25,75 +24,6 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
   const [{ myPosts, posts, commentMutationLists }, setState] = useContext(
     UserContext
   );
-
-  const handleComment = () => {
-    setShowDropDown((currentVal) => !currentVal);
-    setShowCommentBox(false);
-
-    if (posts.length) {
-      setState((data) => ({
-        ...data,
-        commentMutationLists: ["comment"],
-      }));
-    } else if (myPosts.length) {
-      setState((data) => ({
-        ...data,
-        commentMutationLists: ["comment", "edit", "delete"],
-      }));
-    }
-  };
-
-  const handleDeletePostByUser = async () => {
-    await AuthAxios.delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => successToastify(res.data.message))
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
-  const handleDropDownClick = async (value) => {
-    switch (value.toLowerCase()) {
-      case "comment":
-        setShowCommentBox(true);
-        setShowForm(false);
-        break;
-      case "edit":
-        setShowCommentBox(false);
-        setShowForm(true);
-        break;
-
-      case "delete":
-        handleDeletePostByUser();
-        break;
-      default:
-        break;
-    }
-  };
-
-  const handleSubmitComment = async (postId) => {
-    setShowCommentBox(false);
-    await AuthAxios.put(
-      `${REACT_APP_ENDPOINT}/comment/${postId}`,
-      { message },
-      {
-        "Content-Type": "application/json",
-        withCredentials: true,
-      }
-    )
-      .then((res) => {
-        successToastify(res.data.message);
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
 
   useEffect(() => {
     const setTimeOutOnLoader = window.setTimeout(() => {
@@ -138,7 +68,15 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
           <div>
             <FontAwesomeIcon
               icon={faEllipsisV}
-              onClick={() => handleComment()}
+              onClick={() =>
+                handleComment({
+                  setShowCommentBox,
+                  setShowDropDown,
+                  posts,
+                  myPosts,
+                  setState,
+                })
+              }
               cursor="pointer"
             />
             <div className={"container"}>
@@ -153,7 +91,14 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
                         listStyle="none"
                         className="container-fluid"
                         cursor="pointer"
-                        click={() => handleDropDownClick(value)}
+                        click={() =>
+                          handleDropDownClick({
+                            value,
+                            id,
+                            setShowCommentBox,
+                            setShowForm,
+                          })
+                        }
                         color="gray"
                       />
                     ))}
@@ -196,7 +141,9 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
                 border="none"
                 padding="1%"
                 backgroundColor="blue"
-                click={() => handleSubmitComment(id)}
+                click={() =>
+                  handleSubmitComment({ id, message, setShowCommentBox })
+                }
                 borderRadius="5px"
               />
             </div>
