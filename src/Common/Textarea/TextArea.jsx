@@ -31,12 +31,14 @@ const TextArea = ({
   onKeyup,
   cols,
   rows,
+  minWidth,
 }) => {
   return (
     <div className={className ? className : null}>
       <textarea
         style={{
           outline: outLine ? outLine : "none",
+          minWidth: minWidth ? minWidth : null,
           paddingLeft: paddingLeft ? paddingLeft : null,
           width: width ? width : null,
           border: border ? border : null,

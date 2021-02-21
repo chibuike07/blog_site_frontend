@@ -43,6 +43,7 @@ const ResetPassword = ({ match, history }) => {
               label="Email Address"
               name="email"
               autoComplete="email"
+              style={{ minWidth: "180px" }}
               onChange={(ref) => setEmail(ref.target.value)}
             />
           </Grid>
@@ -58,6 +59,7 @@ const ResetPassword = ({ match, history }) => {
               id="password"
               onChange={(ref) => setPassword(ref.target.value)}
               autoComplete="current-password"
+              style={{ minWidth: "180px" }}
             />
           </Grid>
           <Grid item xs={12}></Grid>

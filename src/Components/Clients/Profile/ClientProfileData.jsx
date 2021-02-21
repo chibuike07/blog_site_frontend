@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../../Context_files/UserContext";
+import ClientProfileDataStyles from "../../../Styles/Clients/ClientProfileData.module.css";
 import Input from "../../../Common/Input.component/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPenFancy,
   faTimesCircle,
   faCheckCircle,
   faCamera,
+  faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Image from "../../../Common/Image.component/Image";
@@ -41,7 +42,17 @@ const ProfilePersonalData = () => {
   const [file, setFile] = useState("");
 
   const { REACT_APP_ENDPOINT } = process.env;
-
+  const {
+    container,
+    card,
+    cardTitle,
+    iconWrapper,
+    img,
+    imgWrapper,
+    label,
+    dummyImg,
+    loggedInIp,
+  } = ClientProfileDataStyles;
   useEffect(() => {
     //setting the default user data to the fields on mount
 
@@ -63,22 +74,22 @@ const ProfilePersonalData = () => {
   }, [personalData, REACT_APP_ENDPOINT]);
 
   return (
-    <div className="container-fluid" style={{ marginTop: "1rem" }}>
-      <div className="card">
+    <div className={`${container}`}>
+      <div className={`card $${card}`}>
         <div className="card-body container-fluid d-flex justify-content-between align-items-center">
-          <div className="card-title">
-            <h2>personal information</h2>
+          <div className={cardTitle}>
+            <h2 className="card-title">personal information</h2>
           </div>
-          <div
-            className="container d-flex justify-content-end align-items-center "
-            style={{ width: "20%", marginRight: "1rem" }}
-          >
+          <div className={`${iconWrapper}`}>
             <FontAwesomeIcon
-              icon={faPenFancy}
+              cursor="pointer"
+              icon={faUserEdit}
+              color="rgb(48, 187, 181)"
               onClick={() => handleEditPersonalData({ sethandleDisplay })}
             />
 
             <FontAwesomeIcon
+              cursor="pointer"
               icon={faTimesCircle}
               onClick={() =>
                 handleCancelUpdatePersonalData({
@@ -89,13 +100,14 @@ const ProfilePersonalData = () => {
                   sethandleDisplay,
                 })
               }
-              color="blue"
+              color="rgb(48, 187, 181)"
               size="2x"
             />
 
             <FontAwesomeIcon
+              cursor="pointer"
               icon={faCheckCircle}
-              color="green"
+              color="rgb(48, 187, 181)"
               size="2x"
               onClick={() =>
                 handleUpdatePersonalData({
@@ -115,11 +127,7 @@ const ProfilePersonalData = () => {
         <div className="container-fluid d-flex justify-content-center">
           {profileImage ? (
             <div
-              className="d-flex justify-content-center align-items-center card"
-              style={{
-                backgroundColor: "#000",
-                width: "20%",
-              }}
+              className={` card d-flex justify-content-center align-items-center ${imgWrapper}`}
               onMouseEnter={() =>
                 handleToggleLabel({ setDisplayLabel, setShowAppreviation })
               }
@@ -133,8 +141,7 @@ const ProfilePersonalData = () => {
               <Image
                 src={profileImage}
                 alt="profile image"
-                width="100%"
-                className="card-img"
+                className={`card-img ${img}`}
               />
               <form style={{ display: "none" }}>
                 <Input
@@ -154,6 +161,7 @@ const ProfilePersonalData = () => {
                     zIndex: 4,
                     position: "absolute",
                   }}
+                  className={label}
                 >
                   <FontAwesomeIcon
                     icon={faCamera}
@@ -166,16 +174,7 @@ const ProfilePersonalData = () => {
             </div>
           ) : (
             <div
-              className=""
-              style={{
-                backgroundColor: "blue",
-                width: "15%",
-                height: "20vh",
-                borderRadius: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+              className={dummyImg}
               onMouseEnter={() =>
                 handleToggleLabel({ setDisplayLabel, setShowAppreviation })
               }
@@ -269,7 +268,7 @@ const ProfilePersonalData = () => {
             <label>Number</label>
             <Input
               width="60%"
-              type="number"
+              type="text"
               name="phone"
               value={phone}
               placeholder="12345678901"
@@ -316,7 +315,7 @@ const ProfilePersonalData = () => {
               onChange={(e) => setstate(e.target.value)}
               className="form-control"
               readOnly={handleDisplay}
-            />{" "}
+            />
           </div>
           <div className="form-group">
             <div className="card-body">
@@ -334,34 +333,12 @@ const ProfilePersonalData = () => {
               </span>
             </div>
             <div className="card-body">
-              <h3 className="card-title">Your Registered Ip Address</h3>
+              <h3 className="card-title">Your loggedin Ip Address</h3>
               <br />
-              <span
-                className="card-text"
-                style={{
-                  backgroundColor: "#ccc",
-                  borderRadius: "10px",
-                  padding: "10px",
-                  opacity: "0.6",
-                }}
-              >
+              <span className={`card-text ${loggedInIp}`}>
                 {clientLoggedInIpAddress}
               </span>
             </div>
-            {/*
-
-            
-            
-            <Input
-              width="40%"
-              type="email"
-              name="firstname"
-              value={email}
-              placeholder="youremail@gmail.com"
-              onChange={(e) => setemail(e.target.value)}
-              className="form-control"
-              readOnly={handleDisplay}
-            /> */}
           </div>
           <br />
         </div>

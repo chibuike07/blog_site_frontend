@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import PostFormStyle from "../../Styles/PostForm/PostForm.module.css";
 import Input from "../../Common/Input.component/Input";
 import Button from "../../Common/Button.component/Button";
 import TextArea from "../../Common/Textarea/TextArea";
 import { handleEditForm, handleSubmit, addtoState } from "../utils/PostForm";
+import { UserContext } from "../../Context_files/UserContext";
 
-const PostForm = ({ url, updateUrl, post }) => {
+const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
   const [title, setTitle] = useState("");
   const [body, setPost] = useState("");
+  const [{ mutationFormTag }, setState] = useContext(UserContext);
+  const { container, tag, buttonWrapper, btn } = PostFormStyle;
 
+  let timeInterval = setInterval(() => {
+    // alert("ok");
+    if (!isNaN(editedDataIndex) || editedDataIndex === "") {
+      return setState((data) => ({
+        ...data,
+        mutationFormTag: "upload blog",
+      }));
+    }
+  }, 3000);
   useEffect(() => {
     addtoState({ post, setPost, setTitle });
 
-    return [addtoState];
-  }, [post]);
+    return [addtoState, clearInterval(timeInterval)];
+  }, [post, editedDataIndex, setState, timeInterval]);
   return (
-    <div
-      className="container-fluid"
-      style={{
-        marginTop: "1rem",
-      }}
-    >
+    <div className={`container-fluid ${container}`}>
       <div className="card">
         <div className="card-body">
-          <h2>Post Blog</h2>
+          <h2 className={`card-text ${tag}`}>{mutationFormTag}</h2>
         </div>
         <div className="card-body">
           <form
@@ -38,7 +46,7 @@ const PostForm = ({ url, updateUrl, post }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="form-control"
-              width="50%"
+              width="100%"
             />
             <br />
             <TextArea
@@ -50,40 +58,43 @@ const PostForm = ({ url, updateUrl, post }) => {
               onChange={(e) => setPost(e.target.value)}
               paddingLeft="1%"
               border="2px solid #ccc"
-              width="80%"
+              width="100%"
             />
             <br />
 
-            <div
-              className="button-group d-flex  align-items-center"
-              style={{ width: "70%", marginRight: "1%" }}
-            >
-              <Button
-                text="Add Post"
-                backgroundColor={"blue"}
-                width="100px"
-                marginRight="1rem"
-              />{" "}
+            <div className={`button-group ${buttonWrapper}`}>
+              {isNaN(editedDataIndex) && (
+                <Button
+                  text="Add Post"
+                  backgroundColor={"rgb(48, 187, 181)"}
+                  className={`btn ${btn}`}
+                />
+              )}
             </div>
           </form>
-          <div className="button-group">
-            <Button
-              text="update post"
-              backgroundColor={"blue"}
-              width="100px"
-              marginRight="1rem"
-              click={() =>
-                handleEditForm({
-                  title,
-                  body,
-                  post,
-                  setPost,
-                  setTitle,
-                  updateUrl,
-                })
-              }
-            />
-          </div>
+          {!isNaN(editedDataIndex) && (
+            <div className={`button-group`}>
+              <Button
+                text="Update post"
+                backgroundColor={"rgb(48, 187, 181)"}
+                marginRight="1rem"
+                className={`btn ${btn}`}
+                click={() =>
+                  handleEditForm({
+                    title,
+                    body,
+                    post,
+                    setPost,
+                    setTitle,
+                    updateUrl,
+                    myPosts,
+                    setState,
+                    editedDataIndex,
+                  })
+                }
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -32,7 +32,6 @@ const PreviewComment = ({ match, history }) => {
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-              {/* {console.log("object", specifiedPostCommentPoster[index])} */}
               {specifiedPostCommentPoster.length &&
                 specifiedPostCommentPoster[index].firstName}{" "}
               {specifiedPostCommentPoster.length &&

@@ -18,6 +18,7 @@ export const handleSubmit = async ({
 
   await AuthAxios.post(`${url}`, data, {
     "Content-Type": "application/json",
+    withCredentials: true,
   })
     .then((res) => {
       successToastify(res.data.message);

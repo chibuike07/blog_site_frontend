@@ -6,7 +6,7 @@ import PostFeeds from "../../Components/AdminComponents/PostFeeds";
 import RegisteredIpAddress from "../../Components/AdminComponents/RegisteredIpAddress";
 import AdminDashboardStaticData from "../../Components/AdminComponents/AdminDashboardStaticData";
 import ScrollBar from "react-scrollbars-custom";
-
+import AdminDashboardStyle from "../../Styles/AdminDashboard/AdminDashboard.module.css";
 import {
   fetchClients,
   handleFetchPosts,
@@ -16,9 +16,12 @@ import {
 
 const AdminDashboard = () => {
   const { REACT_APP_ENDPOINT } = process.env;
-  const [{ sideBarActivities, clientPosts }, setState] = useContext(
-    AdminContext
-  );
+  const [
+    { sideBarActivities, clientPosts, toggleSideBar },
+    setState,
+  ] = useContext(AdminContext);
+
+  const { container } = AdminDashboardStyle;
   const [displayDashboard, setdisplayDashboard] = useState(true);
   const [displayUser, setdisplayUser] = useState(false);
   const [displayPosts, setdisplayPosts] = useState(false);
@@ -31,6 +34,7 @@ const AdminDashboard = () => {
         setdisplayRegisteredIp(false);
         setdisplayUser(false);
         setdisplayPosts(false);
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "users":
@@ -41,6 +45,7 @@ const AdminDashboard = () => {
           setdisplayRegisteredIp,
           setState,
         });
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "posts":
@@ -51,6 +56,7 @@ const AdminDashboard = () => {
           setdisplayRegisteredIp,
           setState,
         });
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "registered ip":
@@ -61,10 +67,12 @@ const AdminDashboard = () => {
           setdisplayRegisteredIp,
           setState,
         });
+        toggleSideBar((curVal) => !curVal);
         break;
 
       default:
-        break;
+        return value;
+      // break;
     }
   };
 
@@ -74,7 +82,7 @@ const AdminDashboard = () => {
   }, [REACT_APP_ENDPOINT, setState]);
 
   return (
-    <div className="container-fluid d-flex">
+    <div className={container}>
       <SideBar
         sideBaractivities={sideBarActivities && sideBarActivities}
         clickSideBarActivities={handleSideBarClick}

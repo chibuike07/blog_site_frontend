@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import FeedStyles from "../../../Styles/Clients/Feeds.module.css";
 import CustomPostView from "../../CustomPostView/CustomPostView";
 import { BeatLoader } from "react-spinners";
 
 const Feeds = ({ post }) => {
   const [stopLoader, setStopLoader] = useState(true);
   const [showText, setShowText] = useState(false);
-
+  const { container, textWrapper } = FeedStyles;
   useEffect(() => {
     const setTimeOutOnLoader = setTimeout(() => {
       setStopLoader(false);
@@ -33,17 +34,12 @@ const Feeds = ({ post }) => {
     <div>
       <BeatLoader loading={stopLoader} />
       <div
-        className="container-fluid d-flex justify-content-center align-items-center"
-        style={{ width: "100%", height: "100vh" }}
+        className={`container-fluid d-flex justify-content-center align-items-center ${container}`}
       >
         <div className="card">
           {showText && (
-            <div className="card-body" style={{ backgroundColor: "blue" }}>
-              {showText && (
-                <p style={{ fontSize: "3rem", color: "#fff" }}>
-                  You are yet to post any blog!!!
-                </p>
-              )}
+            <div className={`card-body ${textWrapper}`}>
+              {showText && <p>You are yet to post any blog!!!</p>}
             </div>
           )}
         </div>

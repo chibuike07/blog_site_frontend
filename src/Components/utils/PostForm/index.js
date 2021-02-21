@@ -11,6 +11,9 @@ export const handleEditForm = async ({
   setPost,
   setTitle,
   updateUrl,
+  myPosts,
+  setState,
+  editedDataIndex,
 }) => {
   post &&
     post.map(async (value) => {
@@ -23,9 +26,17 @@ export const handleEditForm = async ({
         withCredentials: true,
       })
         .then((res) => {
-          successToastify(res.data.message);
+          //replace the edited data with the current data
+          myPosts.splice(editedDataIndex, 1, res.data.updatedPost);
+
+          //setting data to the state
+          setState((data) => ({
+            ...data,
+            myPosts: myPosts,
+          }));
           setTitle("");
           setPost("");
+          successToastify(res.data.message);
         })
         .catch((err) =>
           err.response === undefined
@@ -36,7 +47,7 @@ export const handleEditForm = async ({
 };
 
 export const addtoState = ({ post, setPost, setTitle }) => {
-  if (post.length) {
+  if (post && post.length) {
     setPost(post[0].body);
     setTitle(post[0].title);
   }

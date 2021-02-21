@@ -18,7 +18,7 @@ const PostByUser = ({ post }) => {
   }, [stopLoader]);
 
   const posts = post ? (
-    post.map(({ title, body, _id, createdAt, updatedAt }) => (
+    post.map(({ title, body, _id, createdAt, updatedAt, status }) => (
       <CustomPostView
         title={title}
         body={body}
@@ -26,6 +26,7 @@ const PostByUser = ({ post }) => {
         key={_id}
         createdAt={createdAt}
         updatedAt={updatedAt}
+        status={status}
       />
     ))
   ) : (
@@ -37,7 +38,10 @@ const PostByUser = ({ post }) => {
       >
         <div className="card">
           {showText && (
-            <div className="card-body" style={{ backgroundColor: "blue" }}>
+            <div
+              className="card-body"
+              style={{ backgroundColor: "rgb(48, 187, 181)" }}
+            >
               {showText && (
                 <p style={{ fontSize: "3rem", color: "#fff" }}>
                   You are yet to post any blog!!!

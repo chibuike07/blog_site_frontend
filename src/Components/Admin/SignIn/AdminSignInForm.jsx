@@ -29,7 +29,6 @@ const AdminSignInForm = ({ url, history }) => {
       withCredentials: true,
     })
       .then((res) => {
-        console.log("res.data", res.data);
         successToastify(res.data.message);
         sessionStorage.setItem("admin", "admin");
 

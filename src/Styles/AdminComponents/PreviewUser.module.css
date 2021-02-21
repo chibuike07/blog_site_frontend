@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100vh;
+  margin-top: 1rem;
+}
+
+.img {
+  object-fit: contain;
+}
+
+.cardBody {
+  background-color: rgb(48, 187, 181);
+  width: 7%;
+  min-width: 70px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0px 5px 4px gray;
+}
+
+.cardBody span {
+  font-size: larger;
+  color: #fff;
+}
