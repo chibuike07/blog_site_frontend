@@ -11,6 +11,8 @@ const UserContextProvider = (props) => {
     personalData: [],
     toggleSideBar: () => {},
     commentMutationLists: ["comments"],
+    specifiedPostCommentPoster: [],
+    specifiedPost: [],
   });
 
   return (

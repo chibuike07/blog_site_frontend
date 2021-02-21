@@ -1,15 +1,27 @@
 import React, { useEffect, useContext, useState } from "react";
+import { withRouter } from "react-router-dom";
 import CustomPostViewStyles from "../../Styles/CustomPostView/CustomPostView.module.css";
 import { BounceLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "../../Context_files/UserContext";
 import PostText from "../UserMutations/PostText";
-import { handleComment } from "../utils/CustomPostView";
+import {
+  handleComment,
+  handleCommentTitleClick,
+} from "../utils/CustomPostView";
 import CommentBox from "./CommentBox";
 import MutationDropDown from "./MutationDropDown";
 
-const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
+const PostViews = ({
+  title,
+  body,
+  id,
+  createdAt,
+  updatedAt,
+  status,
+  history,
+}) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const [disableLoader, setDisableLoader] = useState(true);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -49,7 +61,12 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
         </div>
         <div className="d-flex justify-content-between">
           <div className="card-title ">
-            <h2 className={cardTitle}>{title}</h2>
+            <h2
+              className={cardTitle}
+              onClick={() => handleCommentTitleClick({ id, history })}
+            >
+              {title}
+            </h2>
           </div>
 
           <div>
@@ -98,9 +115,9 @@ const PostViews = ({ title, body, id, createdAt, updatedAt, status }) => {
       {showForm && <PostText _id={id} />}
     </div>
   ) : (
-    <div>{disableLoader && <BounceLoader size="1" />}</div>
+    <div>{disableLoader && <BounceLoader />}</div>
   );
   return <div className={`container-fluid ${overallContainer}`}>{feed}</div>;
 };
 
-export default PostViews;
+export default withRouter(PostViews);

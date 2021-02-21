@@ -99,3 +99,9 @@ export const handleDropDownClick = async ({
       break;
   }
 };
+
+export const handleCommentTitleClick = ({ id, history }) => {
+  history.push({
+    pathname: `/preview_comment/${id}`,
+  });
+};

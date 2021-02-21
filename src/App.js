@@ -10,6 +10,7 @@ import UserDashboard from "./Pages/userDashboard/UserDashboard";
 import AdminDashboardRoutes from "./Routes/AdminDashboardRoutes";
 import ResetPassword from "./Components/Clients/ClientSignUp/ResetPassword";
 import LoginFromMail from "./Components/Clients/ClientSignUp/LoginFromMail";
+import ClientPreviewComment from "./Components/Clients/ClientPreviewComment/ClientPreviewComment";
 
 const App = () => {
   return (
@@ -17,8 +18,8 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/" component={Registration} exact />
-          <Route path="/login" component={SignInForm} exact />
           <Route path="/signup" component={Registration} exact />
+          <Route path="/login" component={SignInForm} exact />
           <Route
             path="/reset_password/:token"
             component={ResetPassword}
@@ -32,6 +33,10 @@ const App = () => {
           <Route path="/admin/signup" component={AdminRegistration} exact />
           <Route path="/admin/login" component={AdminSignIn} exact />
           <UsersRoutes path="/dashboard" component={UserDashboard} exact />
+          <UsersRoutes
+            path="/preview_comment/:postId"
+            component={ClientPreviewComment}
+          />
           <AdminDashboardRoutes />
         </Switch>
       </Router>

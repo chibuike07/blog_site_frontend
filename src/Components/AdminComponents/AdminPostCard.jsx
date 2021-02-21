@@ -83,7 +83,7 @@ const AdminPostCard = ({ title, body, id, history }) => {
       {showForm && <PostText _id={id} />}
     </div>
   ) : (
-    <div>{disableLoader && <BounceLoader size="1" />}</div>
+    <div>{disableLoader && <BounceLoader />}</div>
   );
   return <div className={`container-fluid  ${container}`}>{feed}</div>;
 };
