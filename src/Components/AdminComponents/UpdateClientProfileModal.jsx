@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import UpdateClientProfileStyles from "../../Styles/AdminComponents/UpDateClientProfileModal.module.css";
 import Input from "../../Common/Input.component/Input";
 // import Button from "../../Common/Button.component/Button";
 import ReactModal from "react-modal";
@@ -45,6 +46,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
 
   const { REACT_APP_ENDPOINT } = process.env;
 
+  const { iconWrapper, imgWrapper, img, input } = UpdateClientProfileStyles;
   useEffect(() => {
     //setting the default user data to the fields on mount
 
@@ -68,23 +70,23 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
 
   return (
     <ReactModal isOpen={openModal}>
-      <div className="container-fluid" style={{ marginTop: "1rem" }}>
-        <div className="card">
-          <div className="card-body container-fluid d-flex justify-content-between align-items-center">
+      <div style={{ marginTop: "1rem" }}>
+        <div>
+          <div className="d-flex  align-items-center">
             <div className="card-title">
               <h2>personal information</h2>
             </div>
-            <div
-              className="container d-flex justify-content-end align-items-center "
-              style={{ width: "20%", marginRight: "1rem" }}
-            >
+            <div className={iconWrapper}>
               <FontAwesomeIcon
                 icon={faPenFancy}
+                cursor="pointer"
+                title="Edit"
                 onClick={() => handleEditPersonalData({ sethandleDisplay })}
               />
 
               <FontAwesomeIcon
                 icon={faTimesCircle}
+                cursor="pointer"
                 onClick={() =>
                   handleCancelUpdatePersonalData({
                     setfirstName,
@@ -95,6 +97,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                     specifiedUserData,
                   })
                 }
+                title="Cancel"
                 color="blue"
                 size="2x"
               />
@@ -103,6 +106,8 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 icon={faCheckCircle}
                 color="green"
                 size="2x"
+                title="Update"
+                cursor="pointer"
                 onClick={() =>
                   handleUpdatePersonalData({
                     address,
@@ -120,29 +125,26 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
               />
             </div>
           </div>
-          <div className="container-fluid d-flex justify-content-center">
+          <div className={`container-fluid`}>
             {profileImage ? (
               <div
-                className="d-flex justify-content-center align-items-center card"
-                style={{
-                  backgroundColor: "#000",
-                  width: "20%",
-                }}
-                onMouseEnter={() =>
-                  handleToggleLabel({ setDisplayLabel, setShowAppreviation })
-                }
-                onMouseLeave={() =>
-                  handleMouseLeaveOnProfileContainer({
-                    setDisplayLabel,
-                    setShowAppreviation,
-                  })
-                }
+                className={`d-flex justify-content-center align-items-center  ${imgWrapper}`}
+                // onMouseEnter={() =>
+                //   handleToggleLabel({ setDisplayLabel, setShowAppreviation })
+                // }
+                // onMouseLeave={() =>
+                //   handleMouseLeaveOnProfileContainer({
+                //     setDisplayLabel,
+                //     setShowAppreviation,
+                //   })
+                // }
               >
                 <Image
                   src={profileImage}
                   alt="profile image"
                   width="100%"
-                  className="card-img"
+                  height="50vh"
+                  className={`card-img ${img}`}
                 />
                 <form style={{ display: "none" }}>
                   <Input
@@ -242,7 +244,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={firstName}
                 placeholder="henry"
                 onChange={(e) => setfirstName(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
               <br />
@@ -254,7 +256,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={lastName}
                 placeholder="williams"
                 onChange={(e) => setlastName(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
             </div>
@@ -269,7 +271,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={email}
                 placeholder="youremail@gmail.com"
                 onChange={(e) => setemail(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
               <br />
@@ -282,7 +284,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={phone}
                 placeholder="12345678901"
                 onChange={(e) => setphone(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
               <br />
@@ -298,7 +300,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={address}
                 placeholder="address"
                 onChange={(e) => setaddress(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
               <br />
@@ -310,7 +312,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={city}
                 placeholder="city"
                 onChange={(e) => setcity(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />
               <br />
@@ -322,7 +324,7 @@ const UpdateClientProfileMadal = ({ url, openModal, setModal }) => {
                 value={state}
                 placeholder="state"
                 onChange={(e) => setstate(e.target.value)}
-                className="form-control"
+                className={`form-control ${input}`}
                 readOnly={handleDisplay}
               />{" "}
             </div>

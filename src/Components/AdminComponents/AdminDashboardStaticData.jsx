@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../../Context_files/AdminContext";
+import AdminDashboardStaticDataStyle from "../../Styles/AdminComponents/AdminDashBoardDataStistics.module.css";
+
 const AdminDashboardStaticData = () => {
   const [{ dashBoardStaticData }] = useContext(AdminContext);
-
+  const { heading } = AdminDashboardStaticDataStyle;
   const RecentLoginclientsDetails = dashBoardStaticData ? (
     [dashBoardStaticData].map(
       ({ loginTime, ClientLoggedInIpAddress, _id }, index) => (
@@ -20,10 +22,7 @@ const AdminDashboardStaticData = () => {
               </div>
               <hr />
               <div className="container">
-                <h2
-                  className="card-title"
-                  style={{ textTransform: "capitalize" }}
-                >
+                <h2 className={`card-title ${heading}`}>
                   last login ip address
                 </h2>
 

@@ -19,10 +19,12 @@ import {
   handlePreviewSingleUser,
 } from "./utils/UserDisplayCard";
 
+import UserDisplayCardStyles from "../../Styles/AdminComponents/UserDisplayCard.module.css";
 const DisplayUsersCard = ({ history }) => {
   const [{ usersList }, setState] = useContext(AdminContext);
 
   const [openModal, setModal] = useState(false);
+  const { imgWrapper, img, namesWrapper } = UserDisplayCardStyles;
 
   const UsersListData = usersList ? (
     usersList.map(
@@ -46,34 +48,17 @@ const DisplayUsersCard = ({ history }) => {
           <div className="card" key={index} style={{ marginBottom: "1rem" }}>
             <div className="card-body">
               {profileImage ? (
-                <div
-                  style={{
-                    width: "20%",
-                    minWidth: "170px",
-                    height: "25vh",
-                    margin: "1rem",
-                  }}
-                >
+                <div className={imgWrapper}>
                   <Image
                     src={profileImage}
                     alt={firstName}
-                    className={"card-img"}
-                    height="30vh"
-                    width="100%"
-                    borderRadius="50%"
+                    className={`card-img ${img}`}
+                    height="25vh"
                   />
                 </div>
               ) : (
                 <div
-                  className="card-img d-flex justify-content-center align-items-center"
-                  style={{
-                    backgroundColor: "blue",
-                    width: "20%",
-                    height: "25vh",
-                    color: "#fff",
-                    borderRadius: "50%",
-                    margin: "1rem",
-                  }}
+                  className={`card-img d-flex justify-content-center align-items-center ${namesWrapper}`}
                 >
                   <span
                     className="card-text"
@@ -171,7 +156,7 @@ const DisplayUsersCard = ({ history }) => {
       <p>no data exist</p>
     </div>
   );
-  return <div className="container">{UsersListData}</div>;
+  return <div className="container-fluid">{UsersListData}</div>;
 };
 
 export default withRouter(DisplayUsersCard);

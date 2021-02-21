@@ -11,9 +11,11 @@ export const handleComment = ({
   posts,
   myPosts,
   setState,
+  setShowForm,
 }) => {
   setShowDropDown((currentVal) => !currentVal);
   setShowCommentBox(false);
+  setShowForm(false);
 
   if (posts.length) {
     setState((data) => ({
@@ -28,12 +30,19 @@ export const handleComment = ({
   }
 };
 
-export const handleDeletePostByUser = async ({ id }) => {
+export const handleDeletePostByUser = async ({ id, setState, myPosts }) => {
   await AuthAxios.delete(`${REACT_APP_ENDPOINT}/post/${id}`, {
     "Content-Type": "application/json",
     withCredentials: true,
   })
-    .then((res) => successToastify(res.data.message))
+    .then((res) => {
+      const remainingPost = myPosts.filter(({ _id }) => _id !== id);
+      setState((data) => ({
+        ...data,
+        myPosts: remainingPost,
+      }));
+      successToastify(res.data.message);
+    })
     .catch((err) =>
       err.response === undefined
         ? false
@@ -70,6 +79,8 @@ export const handleDropDownClick = async ({
   id,
   setShowCommentBox,
   setShowForm,
+  setState,
+  myPosts,
 }) => {
   switch (value.toLowerCase()) {
     case "comment":
@@ -82,7 +93,7 @@ export const handleDropDownClick = async ({
       break;
 
     case "delete":
-      handleDeletePostByUser({ id });
+      handleDeletePostByUser({ id, setState, myPosts });
       break;
     default:
       break;

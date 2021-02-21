@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import PostFeedStyles from "../../Styles/AdminComponents/PostFeed.module.css";
 import { BeatLoader } from "react-spinners";
 import AdminPostCard from "./AdminPostCard";
 
 const PostFeeds = ({ post }) => {
   const [stopLoader, setStopLoader] = useState(true);
   const [showText, setShowText] = useState(false);
+
+  const { wrapper } = PostFeedStyles;
 
   useEffect(() => {
     const setTimeOutOnLoader = setTimeout(() => {
@@ -25,8 +28,7 @@ const PostFeeds = ({ post }) => {
     <div>
       <BeatLoader loading={stopLoader} />
       <div
-        className="container-fluid d-flex justify-content-center align-items-center"
-        style={{ width: "100%", height: "100vh" }}
+        className={`container-fluid d-flex justify-content-center align-items-center  ${wrapper}`}
       >
         <div className="card">
           {showText && (
@@ -42,7 +44,7 @@ const PostFeeds = ({ post }) => {
       </div>
     </div>
   );
-  return <div>{posts}</div>;
+  return <div className="container-fluid">{posts}</div>;
 };
 
 export default PostFeeds;

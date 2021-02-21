@@ -1,0 +1,18 @@
+.iconWrapper {
+  width: 15%;
+  min-width: 100px;
+  position: fixed;
+  right: 15%;
+  bottom: 10%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.img img {
+  object-fit: contain;
+}
+
+.input {
+  min-width: 200px;
+}

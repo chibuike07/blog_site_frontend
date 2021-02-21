@@ -19,12 +19,14 @@ const UserDashboard = ({ history }) => {
   const [displayPostForm, setdisplayPostForm] = useState(false);
   const [displayMyPost, setDisplayMyPost] = useState(false);
   const [displayProfile, setDisplayProfile] = useState(false);
+  const [resetAsideWidth, setresetAsideWidth] = useState("80%");
   const { REACT_APP_ENDPOINT } = process.env;
-  const [{ sideBarActivities, posts, myPosts }, setState] = useContext(
-    UserContext
-  );
+  const [
+    { sideBarActivities, posts, myPosts, toggleSideBar },
+    setState,
+  ] = useContext(UserContext);
 
-  const handleClickSideBarActivities = (innerText, hideSideBar) => {
+  const handleClickSideBarActivities = (innerText) => {
     switch (innerText.toLowerCase()) {
       case "feeds":
         fetchPost({
@@ -34,6 +36,8 @@ const UserDashboard = ({ history }) => {
           setDisplayProfile,
           setdisplayPostForm,
         });
+
+        toggleSideBar((curVal) => !curVal);
         break;
       case "my post":
         fetchMyPosts({
@@ -43,6 +47,7 @@ const UserDashboard = ({ history }) => {
           setDisplayProfile,
           setdisplayPostForm,
         });
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "profile":
@@ -53,6 +58,7 @@ const UserDashboard = ({ history }) => {
           setDisplayProfile,
           setdisplayPostForm,
         });
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "add post":
@@ -60,6 +66,7 @@ const UserDashboard = ({ history }) => {
         setDisplayFeed(false);
         setDisplayMyPost(false);
         setDisplayProfile(false);
+        toggleSideBar((curVal) => !curVal);
         break;
 
       case "sign out":
@@ -79,17 +86,24 @@ const UserDashboard = ({ history }) => {
       setDisplayProfile,
       setdisplayPostForm,
     });
-    return [fetchPost];
+
+    const onResizeWindow = () => {
+      window.innerWidth <= 900
+        ? setresetAsideWidth("100%")
+        : setresetAsideWidth("80%");
+    };
+    onResizeWindow();
+    return [fetchPost, onResizeWindow];
   }, [REACT_APP_ENDPOINT, setState]);
 
   return (
-    <div className="d-flex between container-fluid">
+    <div className="d-flex between">
       <SidebBar
         sideBaractivities={sideBarActivities}
         clickSideBarActivities={handleClickSideBarActivities}
       />
 
-      <div style={{ width: "80%" }} className="container-fluid">
+      <div style={{ width: resetAsideWidth }} className="container-fluid">
         <Scrollbar>
           {displayFeed && <Feeds post={posts} />}
           {displayMyPost && <PostByUser post={myPosts} />}

@@ -1,0 +1,56 @@
+.container {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+}
+
+.cardTitle {
+  width: max-content;
+  display: flex;
+  width: max-content;
+}
+
+.cardTitle h2 {
+  text-transform: capitalize;
+}
+
+.iconWrapper {
+  width: 17%;
+  min-width: 150px;
+  position: fixed;
+  right: 15%;
+  bottom: 10%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 3;
+}
+
+.imgWrapper {
+  width: 20%;
+  min-width: 300px;
+  background-attachment: fixed;
+}
+
+.img {
+  min-width: 300px;
+}
+
+.dummyImg {
+  width: 15%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+}
+
+.loggedInIp {
+  background-color: #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  opacity: 0.6;
+}
