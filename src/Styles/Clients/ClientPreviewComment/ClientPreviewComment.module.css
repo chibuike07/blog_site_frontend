@@ -1,0 +1,26 @@
+.card {
+  margin-bottom: 1rem;
+}
+
+.names {
+  opacity: 0.3;
+  text-transform: capitalize;
+}
+
+.imgWrapper {
+  width: 5%;
+}
+
+.replaceImg {
+  height: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.appreviation {
+  text-transform: capitalize;
+  opacity: 0.3;
+  margin: 10px;
+  min-width: max-content;
+}

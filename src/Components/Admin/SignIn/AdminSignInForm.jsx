@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-
 import CustomLink from "../../../Common/Link.component/Link";
-import {
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import { handleAdminSignIn } from "../AdminSignUp/utils";
 
 const AdminSignInForm = ({ url, history }) => {
   const classes = useStyles();
@@ -20,32 +13,12 @@ const AdminSignInForm = ({ url, history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { email, password };
-
-    await AuthAxios.post(`${url}`, data, {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    })
-      .then((res) => {
-        successToastify(res.data.message);
-        sessionStorage.setItem("admin", "admin");
-
-        // navigating to the dashboard
-        return history.push({
-          pathname: "/admin/dashboard",
-        });
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
-
   return (
-    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+    <form
+      className={classes.form}
+      noValidate
+      onSubmit={(e) => handleAdminSignIn({ e, email, password, url, history })}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -74,12 +47,7 @@ const AdminSignInForm = ({ url, history }) => {
             autoComplete="current-password"
           />
         </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox value="allowExtraEmails" color="primary" />}
-            label="Remember Me"
-          />
-        </Grid>
+        <Grid item xs={12}></Grid>
       </Grid>
 
       <Button

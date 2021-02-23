@@ -12,7 +12,7 @@ export const handleEditPersonalData = ({ sethandleDisplay }) => {
   sethandleDisplay(false);
 
   //prompting a message to the user
-  infoToastify("please proceed to editing of your personal details");
+  infoToastify("please proceed to updating of your personal details");
 };
 
 //setting the userData to the default data when cancelled

@@ -6,40 +6,24 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./UseStyle";
-
-import {
-  successToastify,
-  errorToastify,
-} from "../../../Common/react_toastify/toastify";
 import CustomLink from "../../../Common/Link.component/Link";
-import { AuthAxios } from "../../../helper/CookieRequest";
+import { handleAdminSignUp } from "./utils";
 
 const AdminForm = ({ url, history }) => {
   const classes = useStyles();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let data = { email, password };
-
-    await AuthAxios.post(`${url}`, data, {
-      "Content-Type": "application/json",
-    })
-      .then((res) => {
-        successToastify(res.data.message);
-        history.push("/login");
-      })
-      .catch((err) =>
-        err.response === undefined
-          ? false
-          : errorToastify(err.response.data.message)
-      );
-  };
+  const [robotCheck, setRobotCheck] = useState(false);
 
   return (
-    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+    <form
+      className={classes.form}
+      noValidate
+      onSubmit={(e) =>
+        handleAdminSignUp({ e, url, email, password, history, robotCheck })
+      }
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -70,7 +54,13 @@ const AdminForm = ({ url, history }) => {
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
-            control={<Checkbox value="allowExtraEmails" color="primary" />}
+            control={
+              <Checkbox
+                value={robotCheck}
+                color="primary"
+                onClickCapture={() => setRobotCheck((curState) => !curState)}
+              />
+            }
             label="I am not a robot"
           />
         </Grid>
