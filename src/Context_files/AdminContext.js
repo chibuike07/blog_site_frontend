@@ -5,7 +5,7 @@ const AdminContext = React.createContext([{}, () => {}]);
 const AdminContextProvider = (props) => {
   const [Admin, setCrisptvAdmin] = useState({
     specifiedPostId: "",
-    toggleSideBar: null,
+    toggleSideBar: () => {},
     usersList: [],
     sideBarActivities: ["dashboard", "users", "posts", "registered ip"],
     clientPosts: [],

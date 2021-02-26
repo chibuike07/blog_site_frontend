@@ -3,12 +3,11 @@ import { errorToastify } from "../../../../Common/react_toastify/toastify";
 const { REACT_APP_ENDPOINT } = process.env;
 
 export const fetchCommentById = async ({ postId, setState }) => {
-  await AuthAxios.get(`${REACT_APP_ENDPOINT}/admin/get_single_post/${postId}`, {
+  await AuthAxios.get(`${REACT_APP_ENDPOINT}/one_post/${postId}`, {
     "Content-Type": "application/json",
     withCredentials: true,
   })
     .then((res) => {
-      console.log("res", res.data.posterName);
       setState((data) => ({
         ...data,
         specifiedPost: res.data.data,

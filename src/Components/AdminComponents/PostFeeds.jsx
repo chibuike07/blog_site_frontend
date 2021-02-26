@@ -32,7 +32,10 @@ const PostFeeds = ({ post }) => {
       >
         <div className="card">
           {showText && (
-            <div className="card-body" style={{ backgroundColor: "blue" }}>
+            <div
+              className="card-body"
+              style={{ backgroundColor: "rgb(48, 187, 181)" }}
+            >
               {showText && (
                 <p style={{ fontSize: "3rem", color: "#fff" }}>
                   No blogs for now!
