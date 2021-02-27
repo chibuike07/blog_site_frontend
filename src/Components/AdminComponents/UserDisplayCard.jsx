@@ -54,7 +54,7 @@ const DisplayUsersCard = ({ history }) => {
       ) => {
         return (
           <div className="card" key={index} style={{ marginBottom: "1rem" }}>
-            <div className={` d-flex ${imgAddrWrapper}`}>
+            <div className={` ${imgAddrWrapper}`}>
               <div className="card-body">
                 {profileImage ? (
                   <div className={imgWrapper}>

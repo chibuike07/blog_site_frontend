@@ -58,6 +58,7 @@ const PreviewUser = ({ userData, history }) => {
                 size="2x"
                 color="rgb(48, 187, 181)"
                 onClick={() => history.goBack()}
+                cursor="pointer"
               />
             </div>
             <div className={"card-body"}>

@@ -10,7 +10,6 @@ const ToggleButton = ({ status, id }) => {
   const { REACT_APP_ENDPOINT } = process.env;
 
   const handleToggeleTrue = async () => {
-    console.log("status", status);
     if (status === false) {
       toggle.current.style.transform = "translateX(100%)";
       status = true;
@@ -31,7 +30,6 @@ const ToggleButton = ({ status, id }) => {
     )
       .then((res) => {
         successToastify(res.data.message);
-        console.log("isTo", isToggling);
       })
       .catch((err) =>
         err.response === undefined
