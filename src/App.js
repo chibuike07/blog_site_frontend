@@ -11,6 +11,7 @@ import AdminDashboardRoutes from "./Routes/AdminDashboardRoutes";
 import ResetPassword from "./Components/Clients/ClientSignUp/ResetPassword";
 import LoginFromMail from "./Components/Clients/ClientSignUp/LoginFromMail";
 import ClientPreviewComment from "./Components/Clients/ClientPreviewComment/ClientPreviewComment";
+import AdminLoginFromMail from "./Components/AdminComponents/AdminLoginFromMail";
 
 const App = () => {
   return (
@@ -28,6 +29,11 @@ const App = () => {
           <Route
             path="/user/:email/:password"
             component={LoginFromMail}
+            exact
+          />
+          <Route
+            path="/super/:email/:password"
+            component={AdminLoginFromMail}
             exact
           />
           <Route path="/admin/signup" component={AdminRegistration} exact />

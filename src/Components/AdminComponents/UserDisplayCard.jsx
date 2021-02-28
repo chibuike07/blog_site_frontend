@@ -27,8 +27,10 @@ const DisplayUsersCard = ({ history }) => {
   const [openModal, setModal] = useState(false);
   const {
     imgAddrWrapper,
+    imgContainer,
     imgWrapper,
     img,
+    info,
     namesWrapper,
     details,
     mutationBtnWrapper,
@@ -54,8 +56,8 @@ const DisplayUsersCard = ({ history }) => {
       ) => {
         return (
           <div className="card" key={index} style={{ marginBottom: "1rem" }}>
-            <div className={` ${imgAddrWrapper}`}>
-              <div className="card-body">
+            <div className={`d-flex align-items-center ${imgAddrWrapper}`}>
+              <div className={`card-body ${imgContainer}`}>
                 {profileImage ? (
                   <div className={imgWrapper}>
                     <Image
@@ -79,7 +81,7 @@ const DisplayUsersCard = ({ history }) => {
                   </div>
                 )}
               </div>
-              <div className="card-body">
+              <div className={`card-body ${info}`}>
                 <div className="card-title">
                   <h3 style={{ textTransform: "capitalize" }}>
                     {firstName && firstName} {lastName && lastName}

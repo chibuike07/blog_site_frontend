@@ -42,7 +42,7 @@ const PreviewComment = ({ match, history }) => {
                 ? specifiedPostCommentPoster[index] !== undefined
                   ? specifiedPostCommentPoster[index].firstName
                   : dummyUser.firstName
-                : ""}
+                : ""}{" "}
               {specifiedPostCommentPoster.length
                 ? specifiedPostCommentPoster[index] !== undefined
                   ? specifiedPostCommentPoster[index].lastName
