@@ -1,0 +1,51 @@
+.imgAddrWrapper {
+  flex-wrap: wrap;
+}
+
+.imgContainer {
+  width: 20%;
+  min-width: 250px;
+  display: flex;
+  justify-content: center;
+}
+
+.imgWrapper {
+  background-color: gray;
+  width: 30%;
+  min-width: 250px;
+  height: 25vh;
+}
+
+.img {
+  width: auto;
+}
+
+.img img {
+  width: 100%;
+}
+
+.info {
+  width: 40%;
+}
+
+.namesWrapper {
+  background-color: rgb(48, 187, 181);
+  width: 20%;
+  min-width: 200px;
+  height: 20vh;
+  color: #fff;
+  border-radius: 50%;
+  margin: "1rem";
+  /* background-color: blue; */
+}
+
+.details {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.mutationBtnWrapper {
+  display: flex;
+  flex-wrap: wrap;
+}

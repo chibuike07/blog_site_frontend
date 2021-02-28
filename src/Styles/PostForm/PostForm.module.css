@@ -1,0 +1,12 @@
+.container {
+  margin-top: 1rem;
+}
+
+.tag {
+  text-transform: capitalize;
+}
+
+.buttonWrapper {
+  width: 15%;
+  min-width: 120px;
+}

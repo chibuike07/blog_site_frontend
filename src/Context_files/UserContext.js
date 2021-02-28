@@ -2,9 +2,17 @@ import React, { useState } from "react";
 
 const UserContext = React.createContext([{}, () => {}]);
 
-const CrispUserContextProvider = (props) => {
+const UserContextProvider = (props) => {
   const [UsersData, setUserData] = useState({
-  
+    sideBarActivities: ["feeds", "my post", "add post", "profile", "sign out"],
+    mutationFormTag: "post blog",
+    posts: [],
+    myPosts: [],
+    personalData: [],
+    toggleSideBar: () => {},
+    commentMutationLists: ["comments"],
+    specifiedPostCommentPoster: [],
+    specifiedPost: [],
   });
 
   return (
@@ -17,4 +25,4 @@ const CrispUserContextProvider = (props) => {
   );
 };
 
-export {UserContext, UserContextProvider };
+export { UserContext, UserContextProvider };

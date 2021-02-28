@@ -1,0 +1,24 @@
+.overallContainer {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.container {
+  margin-top: 1rem;
+}
+
+.text {
+  opacity: 0.34;
+  text-transform: capitalize;
+}
+
+.cardTitle {
+  text-transform: capitalize;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.options {
+  color: rgb(48, 187, 181);
+  cursor: pointer;
+}

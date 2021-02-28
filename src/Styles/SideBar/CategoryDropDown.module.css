@@ -1,0 +1,14 @@
+.catDropDown {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.listWrapper {
+  list-style: none;
+  line-height: 2;
+}
+
+.list {
+  text-transform: capitalize;
+}

@@ -1,0 +1,50 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuIcon {
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 2%;
+  top: 12%;
+  display: none;
+}
+
+.iconWrapper {
+  cursor: pointer;
+  filter: drop-shadow(3px 3px 3px gray);
+}
+
+.icon {
+  flex: 1;
+}
+
+.aside {
+  width: 100%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  background-color: rgb(48, 187, 181);
+}
+
+@media only screen and (max-width: 900px) {
+  .menuIcon {
+    display: flex;
+    filter: drop-shadow(3px 5px 10px rgb(128, 128, 128));
+    margin-top: 3%;
+    position: fixed;
+    z-index: 5;
+  }
+
+  .aside {
+    /* display: none; */
+    min-width: 0px;
+    position: absolute;
+    z-index: 3;
+  }
+}
