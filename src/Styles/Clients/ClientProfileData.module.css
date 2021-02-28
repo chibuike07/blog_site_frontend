@@ -41,11 +41,13 @@
 
 .dummyImg {
   width: 15%;
+  min-width: 150px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20vh;
+  background-color: rgb(48, 187, 181);
 }
 
 .loggedInIp {

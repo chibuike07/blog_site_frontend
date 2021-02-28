@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-
+import ClientPreviewCommentStyles from "../../../Styles/Clients/ClientPreviewComment/ClientPreviewComment.module.css";
 import Lists from "../../../Common/List.component/List";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,6 +13,7 @@ import AdminPostCard from "../../AdminComponents/AdminPostCard";
 
 const ClientPreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
+  const { card, names, imgWrapper, replaceImg } = ClientPreviewCommentStyles;
   const [{ specifiedPost, specifiedPostCommentPoster }, setState] = useContext(
     UserContext
   );
@@ -25,42 +26,66 @@ const ClientPreviewComment = ({ match, history }) => {
   }, [REACT_APP_ENDPOINT, postId, setState]);
 
   const { title, body, _id, comment } = specifiedPost && specifiedPost;
+  const dummyUser = {
+    firstName: "u",
+    lastName: "n",
+    profileImage: "",
+  };
 
   const comments =
     comment &&
     comment.map(({ message, clientId }, index) => (
-      <div className="card" style={{ marginBottom: "1rem" }} key={index}>
+      <div className={`card ${card}`} key={index}>
         <div className="card-body">
           <div className="d-flex justify-content-between">
-            <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-              {specifiedPostCommentPoster.length &&
-                specifiedPostCommentPoster[index].firstName}
-              {specifiedPostCommentPoster.length &&
-                specifiedPostCommentPoster[index].lastName}
+            <span className={names}>
+              {specifiedPostCommentPoster.length
+                ? specifiedPostCommentPoster[index] !== undefined
+                  ? specifiedPostCommentPoster[index].firstName
+                  : dummyUser.firstName
+                : ""}
+              {specifiedPostCommentPoster.length
+                ? specifiedPostCommentPoster[index] !== undefined
+                  ? specifiedPostCommentPoster[index].lastName
+                  : dummyUser.lastName
+                : ""}
             </span>
-            <div className="card" style={{ width: "5%" }}>
-              {specifiedPostCommentPoster.length &&
-              specifiedPostCommentPoster[index].profileImage ? (
-                <Image
-                  src={
-                    specifiedPostCommentPoster.length &&
-                    specifiedPostCommentPoster[index].profileImage
-                  }
-                  className="card-img"
-                  borderRadius="50%"
-                />
+            <div className={`card  ${imgWrapper}`}>
+              {specifiedPostCommentPoster.length ? (
+                specifiedPostCommentPoster[index] !== undefined ? (
+                  <Image
+                    src={
+                      specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].profileImage
+                          : dummyUser.profileImage
+                        : ""
+                    }
+                    className="card-img"
+                    borderRadius="50%"
+                  />
+                ) : (
+                  <div
+                    className={`card d-flex justify-content-center align-items-center ${replaceImg}`}
+                  >
+                    <span
+                      style={{ textTransform: "capitalize", opacity: "0.3" }}
+                    >
+                      {specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].firstName
+                          : dummyUser.firstName
+                        : ""}{" "}
+                      {specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].lastName
+                          : dummyUser.lastName
+                        : ""}
+                    </span>
+                  </div>
+                )
               ) : (
-                <div
-                  className="card d-flex justify-content-center align-items-center"
-                  style={{ height: "7vh" }}
-                >
-                  <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-                    {specifiedPostCommentPoster.length &&
-                      specifiedPostCommentPoster[index].firstName[0]}{" "}
-                    {specifiedPostCommentPoster.length &&
-                      specifiedPostCommentPoster[index].lastName[0]}
-                  </span>
-                </div>
+                ""
               )}
             </div>
           </div>
@@ -79,6 +104,7 @@ const ClientPreviewComment = ({ match, history }) => {
         <FontAwesomeIcon
           icon={faArrowCircleLeft}
           size="2x"
+          color="rgb(48, 187, 181)"
           onClickCapture={() => history.goBack()}
         />
       </div>

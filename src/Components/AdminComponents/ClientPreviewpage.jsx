@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import PreviewUser from "../AdminComponents/PreviewUsers";
 import { AuthAxios } from "../../helper/CookieRequest";
+import { errorToastify } from "../../Common/react_toastify/toastify";
 
 const ClientPreviewpage = ({ match }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -19,15 +20,12 @@ const ClientPreviewpage = ({ match }) => {
         }
       )
         .then((res) => {
-          console.log("res.data.data", res.data.data);
           setUserData(res.data.data);
         })
-        .catch(
-          (err) =>
-            err.response === undefined
-              ? false
-              : console.log("err.response", err.response)
-          // errorToastify(err.response.data.message)
+        .catch((err) =>
+          err.response === undefined
+            ? false
+            : errorToastify(err.response.data.message)
         );
     };
     fetchSingleUser();

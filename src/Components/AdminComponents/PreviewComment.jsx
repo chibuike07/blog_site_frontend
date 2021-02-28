@@ -25,6 +25,12 @@ const PreviewComment = ({ match, history }) => {
 
   const { title, body, _id, comment } = specifiedPost && specifiedPost;
 
+  const dummyUser = {
+    firstName: "u",
+    lastName: "n",
+    profileImage: "",
+  };
+
   const comments =
     comment &&
     comment.map(({ message, clientId }, index) => (
@@ -32,34 +38,54 @@ const PreviewComment = ({ match, history }) => {
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-              {specifiedPostCommentPoster.length &&
-                specifiedPostCommentPoster[index].firstName}{" "}
-              {specifiedPostCommentPoster.length &&
-                specifiedPostCommentPoster[index].lastName}
+              {specifiedPostCommentPoster.length
+                ? specifiedPostCommentPoster[index] !== undefined
+                  ? specifiedPostCommentPoster[index].firstName
+                  : dummyUser.firstName
+                : ""}{" "}
+              {specifiedPostCommentPoster.length
+                ? specifiedPostCommentPoster[index] !== undefined
+                  ? specifiedPostCommentPoster[index].lastName
+                  : dummyUser.lastName
+                : ""}
             </span>
             <div className="card" style={{ width: "5%" }}>
-              {specifiedPostCommentPoster.length &&
-              specifiedPostCommentPoster[index].profileImage ? (
-                <Image
-                  src={
-                    specifiedPostCommentPoster.length &&
-                    specifiedPostCommentPoster[index].profileImage
-                  }
-                  className="card-img"
-                  borderRadius="50%"
-                />
+              {specifiedPostCommentPoster.length ? (
+                specifiedPostCommentPoster[index] !== undefined ? (
+                  <Image
+                    src={
+                      specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].profileImage
+                          : dummyUser.profileImage
+                        : ""
+                    }
+                    className="card-img"
+                    borderRadius="50%"
+                  />
+                ) : (
+                  <div
+                    className="card d-flex justify-content-center align-items-center"
+                    style={{ height: "7vh" }}
+                  >
+                    <span
+                      style={{ textTransform: "capitalize", opacity: "0.3" }}
+                    >
+                      {specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].firstName
+                          : dummyUser.firstName
+                        : ""}{" "}
+                      {specifiedPostCommentPoster.length
+                        ? specifiedPostCommentPoster[index] !== undefined
+                          ? specifiedPostCommentPoster[index].lastName
+                          : dummyUser.lastName
+                        : ""}
+                    </span>
+                  </div>
+                )
               ) : (
-                <div
-                  className="card d-flex justify-content-center align-items-center"
-                  style={{ height: "7vh" }}
-                >
-                  <span style={{ textTransform: "capitalize", opacity: "0.3" }}>
-                    {specifiedPostCommentPoster.length &&
-                      specifiedPostCommentPoster[index].firstName[0]}{" "}
-                    {specifiedPostCommentPoster.length &&
-                      specifiedPostCommentPoster[index].lastName[0]}
-                  </span>
-                </div>
+                ""
               )}
             </div>
           </div>
@@ -78,6 +104,8 @@ const PreviewComment = ({ match, history }) => {
         <FontAwesomeIcon
           icon={faArrowCircleLeft}
           size="2x"
+          color="#30bbb5"
+          cursor="pointer"
           onClickCapture={() => history.goBack()}
         />
       </div>

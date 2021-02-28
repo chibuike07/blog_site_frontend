@@ -83,6 +83,7 @@ const ProfilePersonalData = () => {
           <div className={`${iconWrapper}`}>
             <FontAwesomeIcon
               cursor="pointer"
+              title="Edit"
               icon={faUserEdit}
               color="rgb(48, 187, 181)"
               onClick={() => handleEditPersonalData({ sethandleDisplay })}
@@ -90,6 +91,7 @@ const ProfilePersonalData = () => {
 
             <FontAwesomeIcon
               cursor="pointer"
+              title="Cancel"
               icon={faTimesCircle}
               onClick={() =>
                 handleCancelUpdatePersonalData({
@@ -106,6 +108,7 @@ const ProfilePersonalData = () => {
 
             <FontAwesomeIcon
               cursor="pointer"
+              title="Update"
               icon={faCheckCircle}
               color="rgb(48, 187, 181)"
               size="2x"

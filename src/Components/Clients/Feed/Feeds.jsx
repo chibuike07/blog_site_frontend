@@ -18,7 +18,7 @@ const Feeds = ({ post }) => {
     };
   }, []);
 
-  const posts = post ? (
+  const posts = post.length ? (
     post.map(({ title, body, _id, createdAt, updatedAt, status }) => (
       <CustomPostView
         title={title}
@@ -39,7 +39,7 @@ const Feeds = ({ post }) => {
         <div className="card">
           {showText && (
             <div className={`card-body ${textWrapper}`}>
-              {showText && <p>You are yet to post any blog!!!</p>}
+              {showText && <p>No post feed yet! .</p>}
             </div>
           )}
         </div>

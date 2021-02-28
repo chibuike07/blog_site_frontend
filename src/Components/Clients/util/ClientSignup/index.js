@@ -25,7 +25,9 @@ export const handleSubmit = async ({
       history.push("/login");
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network break down. please try later.")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

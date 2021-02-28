@@ -3,10 +3,10 @@ import React, { useEffect } from "react";
 import {
   successToastify,
   errorToastify,
-} from "../../../Common/react_toastify/toastify";
-import { AuthAxios } from "../../../helper/CookieRequest";
+} from "../../Common/react_toastify/toastify";
+import { AuthAxios } from "../../helper/CookieRequest";
 
-const LoginFromMail = ({ match, history }) => {
+const AdminLoginFromMail = ({ match, history }) => {
   const { email, password } = match.params;
   const { REACT_APP_ENDPOINT } = process.env;
 
@@ -14,7 +14,7 @@ const LoginFromMail = ({ match, history }) => {
     const loginFromEmail = async () => {
       let data = { email, password };
 
-      await AuthAxios.post(`${REACT_APP_ENDPOINT}/client/login`, data, {
+      await AuthAxios.post(`${REACT_APP_ENDPOINT}/admin/login`, data, {
         "Content-Type": "application/json",
         withCredentials: true,
       })
@@ -24,7 +24,7 @@ const LoginFromMail = ({ match, history }) => {
 
           // navigating to the dashboard
           return history.push({
-            pathname: "/dashboard",
+            pathname: "/admin/dashboard",
           });
         })
         .catch((err) =>
@@ -40,4 +40,4 @@ const LoginFromMail = ({ match, history }) => {
   return <div></div>;
 };
 
-export default LoginFromMail;
+export default AdminLoginFromMail;

@@ -8,7 +8,6 @@ export const fetchCommentById = async ({ postId, setState }) => {
     withCredentials: true,
   })
     .then((res) => {
-      console.log("res", res.data.posterName);
       setState((data) => ({
         ...data,
         specifiedPost: res.data.data,
