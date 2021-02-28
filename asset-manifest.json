@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/hobbyluv_blog/static/css/main.3c47826d.chunk.css",
+    "main.js": "/hobbyluv_blog/static/js/main.d33f391a.chunk.js",
+    "main.js.map": "/hobbyluv_blog/static/js/main.d33f391a.chunk.js.map",
+    "runtime-main.js": "/hobbyluv_blog/static/js/runtime-main.bf4ce06f.js",
+    "runtime-main.js.map": "/hobbyluv_blog/static/js/runtime-main.bf4ce06f.js.map",
+    "static/css/2.b94f1ce1.chunk.css": "/hobbyluv_blog/static/css/2.b94f1ce1.chunk.css",
+    "static/js/2.b88e3202.chunk.js": "/hobbyluv_blog/static/js/2.b88e3202.chunk.js",
+    "static/js/2.b88e3202.chunk.js.map": "/hobbyluv_blog/static/js/2.b88e3202.chunk.js.map",
+    "static/js/3.7f9abc14.chunk.js": "/hobbyluv_blog/static/js/3.7f9abc14.chunk.js",
+    "static/js/3.7f9abc14.chunk.js.map": "/hobbyluv_blog/static/js/3.7f9abc14.chunk.js.map",
+    "index.html": "/hobbyluv_blog/index.html",
+    "static/css/2.b94f1ce1.chunk.css.map": "/hobbyluv_blog/static/css/2.b94f1ce1.chunk.css.map",
+    "static/css/main.3c47826d.chunk.css.map": "/hobbyluv_blog/static/css/main.3c47826d.chunk.css.map",
+    "static/js/2.b88e3202.chunk.js.LICENSE.txt": "/hobbyluv_blog/static/js/2.b88e3202.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bf4ce06f.js",
+    "static/css/2.b94f1ce1.chunk.css",
+    "static/js/2.b88e3202.chunk.js",
+    "static/css/main.3c47826d.chunk.css",
+    "static/js/main.d33f391a.chunk.js"
+  ]
+}
