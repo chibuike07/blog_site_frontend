@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import Input from "../Input.component/Input.jsx";
 import Button from "../Button.component/Button";
-
+import { errorToastify } from "../react_toastify/toastify";
 import { AuthAxios } from "../../helper/CookieRequest.js";
 
 const CustomSignupForm = ({ showFirstLast, clientSignUp, ClientLogin }) => {
@@ -29,9 +29,11 @@ const CustomSignupForm = ({ showFirstLast, clientSignUp, ClientLogin }) => {
     })
       .then((res) => console.log("res.data", res.data))
       .catch((err) =>
-        err.respomse === undefined
+        err.toString().toLowerCase().includes("network")
+          ? errorToastify("network error. please try later")
+          : err.response === undefined
           ? false
-          : console.log("err.response", err.response)
+          : errorToastify(err.response.data.message)
       );
   };
 

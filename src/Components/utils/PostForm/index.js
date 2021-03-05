@@ -39,18 +39,13 @@ export const handleEditForm = async ({
           successToastify(res.data.message);
         })
         .catch((err) =>
-          err.response === undefined
+          err.toString().toLowerCase().includes("network")
+            ? errorToastify("network error. please try later")
+            : err.response === undefined
             ? false
             : errorToastify(err.response.data.message)
         );
     });
-};
-
-export const addtoState = ({ post, setPost, setTitle }) => {
-  if (post && post.length) {
-    setPost(post[0].body);
-    setTitle(post[0].title);
-  }
 };
 
 export const handleSubmit = async ({
@@ -74,7 +69,9 @@ export const handleSubmit = async ({
       setPost("");
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

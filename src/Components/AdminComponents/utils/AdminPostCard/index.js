@@ -17,7 +17,9 @@ export const handleDeletePostByUser = async ({ id }) => {
   })
     .then((res) => successToastify(res.data.message))
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -41,7 +43,9 @@ export const handleSubmitComment = async ({
       successToastify(res.data.message);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

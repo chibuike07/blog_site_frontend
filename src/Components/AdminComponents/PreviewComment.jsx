@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "../../Common/Image.component/Image";
 import { fetchCommentById } from "./utils/PreViewComment";
+import Scrollbar from "react-scrollbars-custom";
 
 const PreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
@@ -117,7 +118,12 @@ const PreviewComment = ({ match, history }) => {
         <h4>Comments</h4>
         <FontAwesomeIcon icon={faArrowDown} opacity="0.4" />
       </div>
-      <div className="container-fluid">{comments}</div>
+      <div
+        style={{ width: "100%", height: "40vh" }}
+        className="container-fluid"
+      >
+        <Scrollbar>{comments}</Scrollbar>
+      </div>
     </div>
   );
 };

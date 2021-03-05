@@ -4,7 +4,17 @@
 
 .names {
   opacity: 0.3;
+  min-width: 130px;
+  height: 2rem;
+  display: flex;
+  font-size: 0.8rem;
+  justify-content: baseline;
+  align-items: center;
   text-transform: capitalize;
+}
+
+.names span {
+  margin: 0.2rem;
 }
 
 .imgWrapper {
@@ -20,7 +30,8 @@
 
 .appreviation {
   text-transform: capitalize;
-  opacity: 0.3;
+  opacity: 1;
   margin: 10px;
   min-width: max-content;
+  background-color: red;
 }

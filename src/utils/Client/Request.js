@@ -32,7 +32,9 @@ export const fetchPost = async ({
       setDisplayProfile(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -61,7 +63,9 @@ export const fetchMyPosts = async ({
       setDisplayProfile(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -89,7 +93,9 @@ export const fetchUserProfileData = async ({
       setDisplayMyPost(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -111,7 +117,9 @@ export const handleClientSignOut = async ({ history }) => {
       history.push("/login");
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

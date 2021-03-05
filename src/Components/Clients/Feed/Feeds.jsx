@@ -11,7 +11,7 @@ const Feeds = ({ post }) => {
     const setTimeOutOnLoader = setTimeout(() => {
       setStopLoader(false);
       setShowText(true);
-    }, 4000);
+    }, 10000);
 
     return () => {
       clearTimeout(setTimeOutOnLoader);

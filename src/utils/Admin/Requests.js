@@ -26,7 +26,9 @@ export const fetchClients = async ({
       setdisplayRegisteredIp(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -54,7 +56,9 @@ export const handleFetchPosts = async ({
       setdisplayRegisteredIp(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -83,7 +87,9 @@ export const fetchRegisteredIp = async ({
       setdisplayPosts(false);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -101,7 +107,9 @@ export const fetchLatestLoginClients = async ({ setState }) => {
       }));
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

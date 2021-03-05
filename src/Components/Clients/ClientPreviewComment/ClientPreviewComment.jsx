@@ -10,10 +10,17 @@ import { fetchCommentById } from "../util/ClientPreviewComment";
 import { UserContext } from "../../../Context_files/UserContext";
 import Image from "../../../Common/Image.component/Image";
 import AdminPostCard from "../../AdminComponents/AdminPostCard";
+import Scrollbar from "react-scrollbars-custom";
 
 const ClientPreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
-  const { card, names, imgWrapper, replaceImg } = ClientPreviewCommentStyles;
+  const {
+    card,
+    names,
+    imgWrapper,
+    replaceImg,
+    appreviation,
+  } = ClientPreviewCommentStyles;
   const [{ specifiedPost, specifiedPostCommentPoster }, setState] = useContext(
     UserContext
   );
@@ -39,16 +46,20 @@ const ClientPreviewComment = ({ match, history }) => {
         <div className="card-body">
           <div className="d-flex justify-content-between">
             <span className={names}>
-              {specifiedPostCommentPoster.length
-                ? specifiedPostCommentPoster[index] !== undefined
-                  ? specifiedPostCommentPoster[index].firstName
-                  : dummyUser.firstName
-                : ""}
-              {specifiedPostCommentPoster.length
-                ? specifiedPostCommentPoster[index] !== undefined
-                  ? specifiedPostCommentPoster[index].lastName
-                  : dummyUser.lastName
-                : ""}
+              <span>
+                {specifiedPostCommentPoster.length
+                  ? specifiedPostCommentPoster[index] !== undefined
+                    ? specifiedPostCommentPoster[index].firstName
+                    : dummyUser.firstName
+                  : ""}
+              </span>
+              <span>
+                {specifiedPostCommentPoster.length
+                  ? specifiedPostCommentPoster[index] !== undefined
+                    ? specifiedPostCommentPoster[index].lastName
+                    : dummyUser.lastName
+                  : ""}
+              </span>
             </span>
             <div className={`card  ${imgWrapper}`}>
               {specifiedPostCommentPoster.length ? (
@@ -68,17 +79,15 @@ const ClientPreviewComment = ({ match, history }) => {
                   <div
                     className={`card d-flex justify-content-center align-items-center ${replaceImg}`}
                   >
-                    <span
-                      style={{ textTransform: "capitalize", opacity: "0.3" }}
-                    >
+                    <span className={appreviation}>
                       {specifiedPostCommentPoster.length
                         ? specifiedPostCommentPoster[index] !== undefined
-                          ? specifiedPostCommentPoster[index].firstName
+                          ? specifiedPostCommentPoster[index].firstName[0]
                           : dummyUser.firstName
-                        : ""}{" "}
+                        : ""}
                       {specifiedPostCommentPoster.length
                         ? specifiedPostCommentPoster[index] !== undefined
-                          ? specifiedPostCommentPoster[index].lastName
+                          ? specifiedPostCommentPoster[index].lastName[0]
                           : dummyUser.lastName
                         : ""}
                     </span>
@@ -106,6 +115,7 @@ const ClientPreviewComment = ({ match, history }) => {
           size="2x"
           color="rgb(48, 187, 181)"
           onClickCapture={() => history.goBack()}
+          cursor="pointer"
         />
       </div>
 
@@ -116,7 +126,12 @@ const ClientPreviewComment = ({ match, history }) => {
         <h4>Comments</h4>
         <FontAwesomeIcon icon={faArrowDown} opacity="0.4" />
       </div>
-      <div className="container-fluid">{comments}</div>
+      <div
+        style={{ width: "100%", height: "40vh" }}
+        className="container-fluid"
+      >
+        <Scrollbar>{comments}</Scrollbar>
+      </div>
     </div>
   );
 };

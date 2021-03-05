@@ -15,7 +15,9 @@ export const handleDeleteUser = async ({ _id }) => {
       successToastify(res.data.message);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
@@ -36,7 +38,9 @@ export const fetchSingleUser = async ({ _id, setModal, setState }) => {
       setModal(true);
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );

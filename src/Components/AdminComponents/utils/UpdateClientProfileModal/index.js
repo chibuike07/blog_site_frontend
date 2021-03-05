@@ -60,10 +60,12 @@ export const handleUpdatePersonalData = async ({
     })
 
     //watching for error
-    .catch((error) =>
-      error.response === undefined
+    .catch((err) =>
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
-        : errorToastify(error.response.data.message)
+        : errorToastify(err.response.data.message)
     );
 };
 

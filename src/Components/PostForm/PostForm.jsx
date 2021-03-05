@@ -7,12 +7,12 @@ import { handleEditForm, handleSubmit, addtoState } from "../utils/PostForm";
 import { UserContext } from "../../Context_files/UserContext";
 
 const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
-  const [title, setTitle] = useState("");
-  const [body, setPost] = useState("");
+  const [title, setTitle] = useState(post ? post[0].title : "");
+  const [body, setPost] = useState(post ? post[0].body : "");
   const [{ mutationFormTag }, setState] = useContext(UserContext);
   const { container, tag, buttonWrapper, btn } = PostFormStyle;
 
-  let timeInterval = setInterval(() => {
+  let timeInterval = setTimeout(() => {
     // alert("ok");
     if (!isNaN(editedDataIndex) || editedDataIndex === "") {
       return setState((data) => ({
@@ -21,11 +21,11 @@ const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
       }));
     }
   }, 3000);
-  useEffect(() => {
-    addtoState({ post, setPost, setTitle });
 
-    return [addtoState, clearInterval(timeInterval)];
-  }, [post, editedDataIndex, setState, timeInterval]);
+  useEffect(() => {
+    return [clearInterval(timeInterval)];
+  }, [post, setState, timeInterval]);
+
   return (
     <div className={`container-fluid ${container}`}>
       <div className="card">

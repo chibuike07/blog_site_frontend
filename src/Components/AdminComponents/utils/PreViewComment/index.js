@@ -15,7 +15,9 @@ export const fetchCommentById = async ({ postId, setState }) => {
       }));
     })
     .catch((err) =>
-      err.response === undefined
+      err.toString().toLowerCase().includes("network")
+        ? errorToastify("network error. please try later")
+        : err.response === undefined
         ? false
         : errorToastify(err.response.data.message)
     );
