@@ -101,9 +101,9 @@ const PostViews = ({
         </div>
         <hr />
         <div className="content">
-          <p className="card-text">{`${body[0].toUpperCase()}${body.slice(
-            1
-          )}`}</p>
+          <p className="card-text">{`${body[0].toUpperCase()}${body
+            .slice(1)
+            .substr(0, 30)}...`}</p>
         </div>
         <hr />
         {showCommentBox && (
