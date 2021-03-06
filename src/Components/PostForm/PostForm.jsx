@@ -3,18 +3,18 @@ import PostFormStyle from "../../Styles/PostForm/PostForm.module.css";
 import Input from "../../Common/Input.component/Input";
 import Button from "../../Common/Button.component/Button";
 import TextArea from "../../Common/Textarea/TextArea";
-import { handleEditForm, handleSubmit, addtoState } from "../utils/PostForm";
+import { handleEditForm, handleSubmit } from "../utils/PostForm";
 import { UserContext } from "../../Context_files/UserContext";
 
-const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
-  const [title, setTitle] = useState(post ? post[0].title : "");
-  const [body, setPost] = useState(post ? post[0].body : "");
+const PostForm = ({ url, updateUrl, post, myPosts, index, specifiedPost }) => {
+  const [title, setTitle] = useState(post && post.title);
+  const [body, setPost] = useState(post && post.body);
+
   const [{ mutationFormTag }, setState] = useContext(UserContext);
   const { container, tag, buttonWrapper, btn } = PostFormStyle;
 
-  let timeInterval = setTimeout(() => {
-    // alert("ok");
-    if (!isNaN(editedDataIndex) || editedDataIndex === "") {
+  const timeInterval = setTimeout(() => {
+    if (!isNaN(index) || index === "") {
       return setState((data) => ({
         ...data,
         mutationFormTag: "upload blog",
@@ -23,7 +23,9 @@ const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
   }, 3000);
 
   useEffect(() => {
-    return [clearInterval(timeInterval)];
+    return () => {
+      clearInterval(timeInterval);
+    };
   }, [post, setState, timeInterval]);
 
   return (
@@ -63,7 +65,7 @@ const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
             <br />
 
             <div className={`button-group ${buttonWrapper}`}>
-              {isNaN(editedDataIndex) && (
+              {isNaN(index) && (
                 <Button
                   text="Add Post"
                   backgroundColor={"rgb(48, 187, 181)"}
@@ -72,7 +74,8 @@ const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
               )}
             </div>
           </form>
-          {!isNaN(editedDataIndex) && (
+
+          {!isNaN(index) && (
             <div className={`button-group`}>
               <Button
                 text="Update post"
@@ -83,13 +86,12 @@ const PostForm = ({ url, updateUrl, post, myPosts, editedDataIndex }) => {
                   handleEditForm({
                     title,
                     body,
-                    post,
+                    specifiedPost,
                     setPost,
                     setTitle,
                     updateUrl,
                     myPosts,
                     setState,
-                    editedDataIndex,
                   })
                 }
               />

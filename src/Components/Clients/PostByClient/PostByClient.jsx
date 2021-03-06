@@ -7,18 +7,21 @@ const PostByUser = ({ post }) => {
   const [showText, setShowText] = useState(false);
 
   useEffect(() => {
+    // disable loader after 10secs
     const setTimeOutOnLoader = setTimeout(() => {
       setStopLoader(false);
       setShowText(true);
-    }, 4000);
+    }, 10000);
 
     return () => {
+      // clear loader
       clearTimeout(setTimeOutOnLoader);
     };
   }, [stopLoader]);
 
+  // render the user post
   const posts = post ? (
-    post.map(({ title, body, _id, createdAt, updatedAt, status }) => (
+    post.map(({ title, body, _id, createdAt, updatedAt, status }, index) => (
       <CustomPostView
         title={title}
         body={body}
@@ -27,6 +30,7 @@ const PostByUser = ({ post }) => {
         createdAt={createdAt}
         updatedAt={updatedAt}
         status={status}
+        index={index}
       />
     ))
   ) : (

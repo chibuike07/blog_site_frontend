@@ -21,6 +21,7 @@ const PostViews = ({
   updatedAt,
   status,
   history,
+  index,
 }) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const [disableLoader, setDisableLoader] = useState(true);
@@ -38,11 +39,13 @@ const PostViews = ({
   } = CustomPostViewStyles;
 
   useEffect(() => {
+    //disabling loading after 10 seconds
     const setTimeOutOnLoader = window.setTimeout(() => {
       setDisableLoader(false);
-    }, 3000);
+    }, 10000);
 
     return () => {
+      // clearing interval
       clearTimeout(setTimeOutOnLoader);
     };
   }, [REACT_APP_ENDPOINT]);
@@ -112,7 +115,7 @@ const PostViews = ({
           />
         )}
       </div>
-      {showForm && <PostText _id={id} />}
+      {showForm && <PostText data={{ body, title }} id={id} index={index} />}
     </div>
   ) : (
     <div>{disableLoader && <BounceLoader />}</div>
