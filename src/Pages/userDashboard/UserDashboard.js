@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
+import userDashboardStyle from "../../Styles/Clients/UserDashboard.module.css";
 import SidebBar from "../../Components/SideBar/SidebBar";
 import { UserContext } from "../../Context_files/UserContext";
 import PostText from "../../Components/UserMutations/PostText";
@@ -25,6 +26,7 @@ const UserDashboard = ({ history }) => {
     { sideBarActivities, posts, myPosts, toggleSideBar },
     setState,
   ] = useContext(UserContext);
+  const { container, aside } = userDashboardStyle;
 
   const handleClickSideBarActivities = (innerText) => {
     switch (innerText.toLowerCase()) {
@@ -97,13 +99,16 @@ const UserDashboard = ({ history }) => {
   }, [REACT_APP_ENDPOINT, setState]);
 
   return (
-    <div className="d-flex between">
+    <div className={`d-flex ${container}`}>
       <SidebBar
         sideBaractivities={sideBarActivities}
         clickSideBarActivities={handleClickSideBarActivities}
       />
 
-      <div style={{ width: resetAsideWidth }} className="container-fluid">
+      <div
+        style={{ width: resetAsideWidth }}
+        className={`container-fluid ${aside}`}
+      >
         <Scrollbar>
           {displayFeed && <Feeds post={posts} />}
           {displayMyPost && <PostByUser post={myPosts} />}

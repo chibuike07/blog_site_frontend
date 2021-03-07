@@ -4,6 +4,11 @@
   width: 80%;
   height: 100vh;
   margin-top: 1rem;
+  background-image: url("../../Assests/myblogbackground.jpeg");
+  background-size: cover;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  background-position: 100% 80%;
 }
 
 .img {

@@ -1,3 +1,11 @@
+.container {
+  background-image: url("../../../Assests/myblogbackground.jpeg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: 100% 80%;
+}
+
 .card {
   margin-bottom: 1rem;
 }

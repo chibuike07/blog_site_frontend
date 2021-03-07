@@ -14,8 +14,6 @@
 
 .cardTitle {
   text-transform: capitalize;
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .options {

@@ -1,5 +1,4 @@
 .container {
-  display: flex;
   background-image: url("../../Assests/myblogbackground.jpeg");
   background-size: cover;
   background-attachment: scroll;

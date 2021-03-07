@@ -22,6 +22,7 @@ const PostViews = ({
   status,
   history,
   index,
+  displayFullText = false,
 }) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const [disableLoader, setDisableLoader] = useState(true);
@@ -66,7 +67,13 @@ const PostViews = ({
           <div className="card-title ">
             <h2
               className={cardTitle}
-              onClick={() => handleCommentTitleClick({ id, history })}
+              style={{
+                textDecoration: displayFullText ? "none" : "underline",
+                cursor: displayFullText ? "no-drop" : "pointer",
+              }}
+              onClick={() =>
+                !displayFullText && handleCommentTitleClick({ id, history })
+              }
             >
               {title}
             </h2>
@@ -101,9 +108,15 @@ const PostViews = ({
         </div>
         <hr />
         <div className="content">
-          <p className="card-text">{`${body[0].toUpperCase()}${body
-            .slice(1)
-            .substr(0, 30)}...`}</p>
+          {!displayFullText ? (
+            <p className="card-text">{`${body[0].toUpperCase()}${body
+              .slice(1)
+              .substr(0, 30)}...`}</p>
+          ) : (
+            <p className="card-text">{`${body[0].toUpperCase()}${body.slice(
+              1
+            )}`}</p>
+          )}
         </div>
         <hr />
         {showCommentBox && (

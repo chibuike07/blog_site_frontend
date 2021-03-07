@@ -9,12 +9,13 @@ import {
 import { fetchCommentById } from "../util/ClientPreviewComment";
 import { UserContext } from "../../../Context_files/UserContext";
 import Image from "../../../Common/Image.component/Image";
-import AdminPostCard from "../../AdminComponents/AdminPostCard";
 import Scrollbar from "react-scrollbars-custom";
+import CustomPostView from "../../CustomPostView/CustomPostView";
 
 const ClientPreviewComment = ({ match, history }) => {
   const { REACT_APP_ENDPOINT } = process.env;
   const {
+    container,
     card,
     names,
     imgWrapper,
@@ -107,30 +108,32 @@ const ClientPreviewComment = ({ match, history }) => {
       </div>
     ));
   return (
-    <div className="container">
-      <AdminPostCard title={title} body={body} id={_id} />
-      <div className="card-body">
-        <FontAwesomeIcon
-          icon={faArrowCircleLeft}
-          size="2x"
-          color="rgb(48, 187, 181)"
-          onClickCapture={() => history.goBack()}
-          cursor="pointer"
-        />
-      </div>
+    <div className={`container-fluid ${container}`}>
+      <div className="container">
+        <CustomPostView title={title} body={body} id={_id} displayFullText />
+        <div className="card-body">
+          <FontAwesomeIcon
+            icon={faArrowCircleLeft}
+            size="2x"
+            color="rgb(48, 187, 181)"
+            onClickCapture={() => history.goBack()}
+            cursor="pointer"
+          />
+        </div>
 
-      <div
-        className="card-body d-flex align-items-center justify-content-between"
-        style={{ width: "18%" }}
-      >
-        <h4>Comments</h4>
-        <FontAwesomeIcon icon={faArrowDown} opacity="0.4" />
-      </div>
-      <div
-        style={{ width: "100%", height: "40vh" }}
-        className="container-fluid"
-      >
-        <Scrollbar>{comments}</Scrollbar>
+        <div
+          className="card-body d-flex align-items-center justify-content-between"
+          style={{ width: "18%" }}
+        >
+          <h4>Comments</h4>
+          <FontAwesomeIcon icon={faArrowDown} opacity="0.4" />
+        </div>
+        <div
+          style={{ width: "100%", height: "40vh" }}
+          className="container-fluid"
+        >
+          <Scrollbar>{comments}</Scrollbar>
+        </div>
       </div>
     </div>
   );

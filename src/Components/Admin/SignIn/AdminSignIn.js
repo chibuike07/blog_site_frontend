@@ -5,9 +5,9 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import Copyright from "./CopyRight";
 import useStyles from "./UseStyle";
 import AdminSignInForm from "./AdminSignInForm";
+import Copyright from "../../../Common/CopyRight/CopyRight";
 
 const AdminSignInFormReg = ({ url }) => {
   const classes = useStyles();
